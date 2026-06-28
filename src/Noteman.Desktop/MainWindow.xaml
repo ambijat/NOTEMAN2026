@@ -68,7 +68,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="180" />
+                    <RowDefinition Height="190" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="Current Note Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
                 <TextBox x:Name="PreviewBox"
@@ -77,11 +77,37 @@
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto" />
 
-                <DockPanel Grid.Row="2" Margin="0,12,0,6">
-                    <Button DockPanel.Dock="Right" Content="Search" Click="Search_Click" Width="80" />
-                    <TextBox x:Name="SearchBox" />
-                </DockPanel>
-                <ListBox x:Name="SearchResults" Grid.Row="3" />
+                <Grid Grid.Row="2" Margin="0,12,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="140" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="PromptChoice" SelectedIndex="0">
+                        <ComboBoxItem Content="Clean OCR" />
+                        <ComboBoxItem Content="Summarize" />
+                        <ComboBoxItem Content="Thesis Note" />
+                        <ComboBoxItem Content="Paraphrase" />
+                        <ComboBoxItem Content="Keywords" />
+                    </ComboBox>
+                    <Button Grid.Column="1" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="6,0,0,0" />
+                    <Button Grid.Column="2" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="6,0,0,0" />
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DockPanel Margin="0,0,0,6">
+                        <TextBlock Text="AI Prompt Workbench" FontWeight="SemiBold" />
+                        <Button DockPanel.Dock="Right" Content="Save Draft as Fragment" Click="SaveDraftAsFragment_Click" Width="150" />
+                    </DockPanel>
+                    <TextBox x:Name="PromptBox"
+                             Grid.Row="1"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto" />
+                </Grid>
             </Grid>
         </Grid>
     </DockPanel>

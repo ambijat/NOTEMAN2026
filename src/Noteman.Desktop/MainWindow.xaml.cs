@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.Win32;
 using Noteman.Core.Models;
 using Noteman.Core.Storage;
@@ -130,28 +131,42 @@ public partial class MainWindow : Window
 
     private void NextPage_Click(object sender, RoutedEventArgs e) => ChangePage(1);
 
-    private void Search_Click(object sender, RoutedEventArgs e)
+    private void CopyPrompt_Click(object sender, RoutedEventArgs e)
     {
-        SearchResults.Items.Clear();
-        if (currentNote is null)
+        var fragment = LatestFragment();
+        if (fragment is null)
         {
+            StatusText.Text = "Capture text first, then copy a prompt.";
             return;
         }
 
-        var query = SearchBox.Text.Trim();
-        if (query.Length == 0)
+        var prompt = BuildPrompt(PromptName(), fragment);
+        PromptBox.Text = prompt;
+        Clipboard.SetText(prompt);
+        StatusText.Text = $"Copied {PromptName()} prompt for {fragment.CitationHeading()}.";
+    }
+
+    private void PasteAiResult_Click(object sender, RoutedEventArgs e)
+    {
+        if (!Clipboard.ContainsText())
         {
+            StatusText.Text = "Clipboard has no AI result text.";
             return;
         }
 
-        foreach (var fragment in currentNote.Fragments)
+        DraftBox.Text = Clipboard.GetText().Trim();
+        StatusText.Text = "Pasted AI result into Typed Draft. Review it before saving.";
+    }
+
+    private void SaveDraftAsFragment_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(DraftBox.Text))
         {
-            if (fragment.Text.Contains(query, StringComparison.OrdinalIgnoreCase)
-                || fragment.CitationHeading().Contains(query, StringComparison.OrdinalIgnoreCase))
-            {
-                SearchResults.Items.Add($"{fragment.CitationHeading()} - {Preview(fragment.Text)}");
-            }
+            StatusText.Text = "Typed Draft is empty.";
+            return;
         }
+
+        AddFragment(DraftBox.Text, ExtractionMethods.Manual, clearDraft: true);
     }
 
     private void AddFragment(string text, string method, bool clearDraft = false)
@@ -225,6 +240,41 @@ public partial class MainWindow : Window
             .ReplaceLineEndings(" ")
             .Trim();
 
-    private static string Preview(string value) =>
-        value.Length <= 80 ? value : value[..80] + "...";
+    private CaptureFragment? LatestFragment() =>
+        currentNote is null || currentNote.Fragments.Count == 0
+            ? null
+            : currentNote.Fragments[^1];
+
+    private string PromptName() =>
+        PromptChoice.SelectedItem is ComboBoxItem item
+            ? item.Content.ToString() ?? "Summarize"
+            : "Summarize";
+
+    private static string BuildPrompt(string promptName, CaptureFragment fragment)
+    {
+        var task = promptName switch
+        {
+            "Clean OCR" => "Clean OCR errors, preserve the original meaning, and do not add new facts.",
+            "Summarize" => "Summarize this into a concise research note.",
+            "Thesis Note" => "Convert this into a thesis-ready note with key idea, relevance, and possible use.",
+            "Paraphrase" => "Paraphrase this in academic language while keeping the source meaning intact.",
+            "Keywords" => "Extract keywords, concepts, names, and possible search terms.",
+            _ => "Help me turn this captured text into a useful research note."
+        };
+
+        return string.Join("\n", [
+            "You are helping prepare a source-aware research note.",
+            "",
+            $"Source: {fragment.Source.Label}",
+            $"Locator: {fragment.Locator.Display()}",
+            "",
+            "Captured text:",
+            fragment.Text.Trim(),
+            "",
+            "Task:",
+            task,
+            "",
+            "Return only the useful result, not an explanation of your process."
+        ]);
+    }
 }
