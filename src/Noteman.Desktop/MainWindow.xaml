@@ -14,8 +14,8 @@
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="260" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="9*" />
+                <ColumnDefinition Width="11*" />
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" BorderBrush="#D0D7DE" BorderThickness="1" Padding="10">
@@ -68,7 +68,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="190" />
+                    <RowDefinition Height="240" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="Current Note Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
                 <TextBox x:Name="PreviewBox"
@@ -77,15 +77,23 @@
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto" />
 
-                <Grid Grid.Row="2" Margin="0,12,0,6">
+                <Grid Grid.Row="2" Margin="0,12,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="110" />
-                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="PromptChoice" DisplayMemberPath="Title" SelectedValuePath="Path" SelectedIndex="0" />
-                    <Button Grid.Column="1" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="6,0,0,0" />
-                    <Button Grid.Column="2" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="6,0,0,0" />
+                    <ComboBox x:Name="PromptChoice"
+                              Grid.ColumnSpan="2"
+                              DisplayMemberPath="Title"
+                              SelectedValuePath="Path"
+                              SelectedIndex="0"
+                              Margin="0,0,0,6" />
+                    <Button Grid.Row="1" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="0,0,4,0" />
+                    <Button Grid.Row="1" Grid.Column="1" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="4,0,0,0" />
                 </Grid>
                 <Grid Grid.Row="3">
                     <Grid.RowDefinitions>
@@ -94,7 +102,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel Margin="0,0,0,6">
                         <TextBlock Text="AI Prompt Workbench" FontWeight="SemiBold" />
-                        <Button DockPanel.Dock="Right" Content="Save Draft as Fragment" Click="SaveDraftAsFragment_Click" Width="150" />
+                        <Button DockPanel.Dock="Right" Content="Save Draft" Click="SaveDraftAsFragment_Click" Width="100" />
                     </DockPanel>
                     <TextBox x:Name="PromptBox"
                              Grid.Row="1"
