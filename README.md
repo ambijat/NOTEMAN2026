@@ -1,0 +1,38 @@
+# noteman-desktop
+
+Windows desktop implementation of NoteMan as a source-aware Workspace Capture System.
+
+This repository is the C# companion to `noteman-wcs`. The two implementations may have different interfaces, but they should read and write the same workspace format.
+
+## Goal
+
+NoteMan Desktop should make fast research capture natural on Windows:
+
+- create or open a workspace
+- create projects and notes
+- capture clipboard text with source and locator
+- preserve fragments as structured JSON
+- export notes as Markdown
+- prepare clean extension points for clipboard OCR and image OCR
+
+The core object is a captured fragment:
+
+```text
+Source -> Locator -> Extraction -> Fragment -> Note -> Review
+```
+
+## Projects
+
+- `src/Noteman.Core`: domain model and file-based persistence
+- `src/Noteman.Desktop`: WPF desktop shell
+
+## Build
+
+Install the .NET SDK on Windows, then run:
+
+```powershell
+dotnet build src\Noteman.Desktop\Noteman.Desktop.csproj
+dotnet run --project src\Noteman.Desktop\Noteman.Desktop.csproj
+```
+
+The current machine used to scaffold this repo did not have `dotnet` installed, so the initial project was created by hand and not compiled locally.

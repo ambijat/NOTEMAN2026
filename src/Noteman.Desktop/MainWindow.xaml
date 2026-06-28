@@ -1,0 +1,87 @@
+<Window x:Class="Noteman.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NoteMan Desktop"
+        Width="1120"
+        Height="720"
+        MinWidth="900"
+        MinHeight="580">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock x:Name="StatusText" Text="Select a workspace to begin." />
+        </StatusBar>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="#D0D7DE" BorderThickness="1" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Workspace" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Button Content="Choose Workspace" Click="ChooseWorkspace_Click" Margin="0,0,0,8" />
+                    <TextBlock x:Name="WorkspacePathText" TextWrapping="Wrap" Foreground="#57606A" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Project" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <TextBox x:Name="ProjectNameBox" Text="Thesis Notes" Margin="0,0,0,8" />
+
+                    <TextBlock Text="Note" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <TextBox x:Name="NoteTitleBox" Text="Chapter One" Margin="0,0,0,8" />
+                    <Button Content="New Note" Click="NewNote_Click" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Source" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <TextBox x:Name="SourceBox" Text="Reference..." Margin="0,0,0,8" />
+
+                    <TextBlock Text="Page / Locator" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <DockPanel Margin="0,0,0,16">
+                        <Button DockPanel.Dock="Left" Content="-" Width="34" Click="PreviousPage_Click" />
+                        <Button DockPanel.Dock="Right" Content="+" Width="34" Click="NextPage_Click" />
+                        <TextBox x:Name="LocatorBox" Text="1" HorizontalContentAlignment="Center" />
+                    </DockPanel>
+
+                    <Button Content="Paste Clipboard Text" Click="PasteClipboardText_Click" Margin="0,0,0,8" />
+                    <Button Content="Clipboard OCR" Click="ClipboardOcr_Click" Margin="0,0,0,8" />
+                    <Button Content="Export Note" Click="ExportNote_Click" Margin="0,0,0,8" />
+                    <Button Content="Reset Draft" Click="ResetDraft_Click" />
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Capture Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBox x:Name="DraftBox"
+                         Grid.Row="1"
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" />
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="180" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Current Note Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBox x:Name="PreviewBox"
+                         Grid.Row="1"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" />
+
+                <DockPanel Grid.Row="2" Margin="0,12,0,6">
+                    <Button DockPanel.Dock="Right" Content="Search" Click="Search_Click" Width="80" />
+                    <TextBox x:Name="SearchBox" />
+                </DockPanel>
+                <ListBox x:Name="SearchResults" Grid.Row="3" />
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
