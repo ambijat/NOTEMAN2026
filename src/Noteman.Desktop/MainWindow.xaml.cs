@@ -66,7 +66,7 @@ public partial class MainWindow : Window
     private void ClipboardOcr_Click(object sender, RoutedEventArgs e)
     {
         MessageBox.Show(
-            "OCR is the next adapter: this shell already preserves source, locator, fragment, and export state.",
+            "Clipboard OCR is not wired yet. It will read an image from the Windows clipboard, run OCR, then capture the text with the current source and page.",
             "NoteMan OCR");
     }
 
@@ -91,22 +91,39 @@ public partial class MainWindow : Window
 
     private void ResetDraft_Click(object sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(DraftBox.Text))
+        if (string.IsNullOrWhiteSpace(DraftBox.Text))
         {
-            var answer = MessageBox.Show(
-                "Discard the current draft text?",
-                "NoteMan",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
+            StatusText.Text = "Draft is already empty. Use Undo Last Capture to remove captured preview text.";
+            return;
+        }
 
-            if (answer != MessageBoxResult.Yes)
-            {
-                return;
-            }
+        var answer = MessageBox.Show(
+            "Discard the current draft text?",
+            "NoteMan",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (answer != MessageBoxResult.Yes)
+        {
+            return;
         }
 
         DraftBox.Clear();
         StatusText.Text = "Draft reset.";
+    }
+
+    private void UndoLastCapture_Click(object sender, RoutedEventArgs e)
+    {
+        if (currentNote is null || currentNote.Fragments.Count == 0)
+        {
+            StatusText.Text = "No captured fragments to undo.";
+            return;
+        }
+
+        var last = currentNote.Fragments[^1];
+        currentNote.Fragments.RemoveAt(currentNote.Fragments.Count - 1);
+        UpdatePreview();
+        StatusText.Text = $"Removed last capture from {last.CitationHeading()}.";
     }
 
     private void PreviousPage_Click(object sender, RoutedEventArgs e) => ChangePage(-1);

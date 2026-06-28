@@ -42,7 +42,8 @@
                     </DockPanel>
 
                     <Button Content="Paste Clipboard Text" Click="PasteClipboardText_Click" Margin="0,0,0,8" />
-                    <Button Content="Clipboard OCR" Click="ClipboardOcr_Click" Margin="0,0,0,8" />
+                    <Button Content="Clipboard OCR (soon)" Click="ClipboardOcr_Click" Margin="0,0,0,8" />
+                    <Button Content="Undo Last Capture" Click="UndoLastCapture_Click" Margin="0,0,0,8" />
                     <Button Content="Export Note" Click="ExportNote_Click" Margin="0,0,0,8" />
                     <Button Content="Reset Draft" Click="ResetDraft_Click" />
                 </StackPanel>
