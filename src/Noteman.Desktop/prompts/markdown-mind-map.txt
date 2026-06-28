@@ -1,0 +1,12 @@
+Markdown Mind Map
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Create a compact markdown mind map from this passage. Use nested bullets and short phrases. Keep it grounded in the captured text.
+
+Return only the markdown mind map.

@@ -1,0 +1,19 @@
+Structured Bullet Summary
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Create a structured bullet-point summary. Organize the bullets under meaningful headings based on the content.
+
+Return the result as:
+Heading 1:
+- point
+- point
+
+Heading 2:
+- point
+- point

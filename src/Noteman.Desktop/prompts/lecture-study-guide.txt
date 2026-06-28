@@ -1,0 +1,17 @@
+Lecture Study Guide
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Turn this passage into a study guide suitable for revision.
+
+Return the result under these labels:
+Core idea:
+Important terms:
+Short explanation:
+Things to remember:
+Possible exam questions:

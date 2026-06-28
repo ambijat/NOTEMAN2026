@@ -1,0 +1,15 @@
+Prompt Minimizer
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Condense this captured text into the shortest useful version for asking another AI question later. Preserve source-relevant facts, technical terms, and uncertainties.
+
+Return the result under these labels:
+Compressed context:
+Must preserve:
+Can omit:

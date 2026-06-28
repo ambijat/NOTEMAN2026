@@ -1,0 +1,16 @@
+Question Based Reading
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Create reading-comprehension questions that help me understand and review this passage.
+
+Return the result under these labels:
+Basic questions:
+Analytical questions:
+Critical questions:
+Questions for further research:

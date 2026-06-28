@@ -1,0 +1,17 @@
+Meeting or Lecture Minutes
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Extract the important points as if this were lecture notes, meeting notes, or a discussion transcript.
+
+Return the result under these labels:
+Topic:
+Main points:
+Decisions or conclusions:
+Action items:
+Open questions:

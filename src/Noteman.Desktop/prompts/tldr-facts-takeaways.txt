@@ -1,0 +1,16 @@
+TLDR Facts and Takeaways
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Extract the concrete facts, claims, definitions, numbers, names, and relationships from this passage. Then write a brief TLDR.
+
+Return the result under these labels:
+Facts:
+Key claims:
+TLDR:
+Usefulness for research:

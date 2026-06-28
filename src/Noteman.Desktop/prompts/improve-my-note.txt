@@ -1,0 +1,15 @@
+Improve My Note
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Improve the structure, wording, and logic of this note. Keep the meaning and source discipline intact. Do not turn it into unsupported claims.
+
+Return the result under these labels:
+Improved note:
+What changed:
+Citation caution:

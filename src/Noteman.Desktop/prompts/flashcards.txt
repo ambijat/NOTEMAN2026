@@ -1,0 +1,17 @@
+Flashcards
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Create flashcards from this passage. Keep each card concise and factually grounded in the captured text.
+
+Return as plain text in this format:
+Q: question
+A: answer
+
+Q: question
+A: answer

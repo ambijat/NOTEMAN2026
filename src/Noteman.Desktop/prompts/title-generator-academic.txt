@@ -1,0 +1,15 @@
+Academic Title Ideas
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Generate possible academic titles or section headings inspired by this passage. Keep them accurate and not sensational.
+
+Return 10 title ideas, grouped as:
+Descriptive:
+Analytical:
+Thesis/literature review:

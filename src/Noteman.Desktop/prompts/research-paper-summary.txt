@@ -1,0 +1,19 @@
+Research Paper Summary
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Summarize this as part of a research paper or academic article. If any category is not visible in the passage, write "not available in this fragment."
+
+Return the result under these labels:
+Research problem:
+Main argument:
+Method or approach:
+Evidence:
+Findings:
+Limitations:
+Relevance to my work:
