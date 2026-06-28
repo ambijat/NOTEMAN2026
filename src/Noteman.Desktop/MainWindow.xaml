@@ -45,7 +45,7 @@
                     <Button Content="Clipboard OCR (soon)" Click="ClipboardOcr_Click" Margin="0,0,0,8" />
                     <Button Content="Undo Last Capture" Click="UndoLastCapture_Click" Margin="0,0,0,8" />
                     <Button Content="Export Note" Click="ExportNote_Click" Margin="0,0,0,8" />
-                    <Button Content="Reset Draft" Click="ResetDraft_Click" />
+                    <Button Content="Clear Typed Draft" Click="ClearTypedDraft_Click" />
                 </StackPanel>
             </Border>
 
@@ -54,7 +54,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Capture Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBlock Text="Typed Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
                 <TextBox x:Name="DraftBox"
                          Grid.Row="1"
                          AcceptsReturn="True"

@@ -89,16 +89,16 @@ public partial class MainWindow : Window
         StatusText.Text = $"Exported to {notePath}";
     }
 
-    private void ResetDraft_Click(object sender, RoutedEventArgs e)
+    private void ClearTypedDraft_Click(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(DraftBox.Text))
         {
-            StatusText.Text = "Draft is already empty. Use Undo Last Capture to remove captured preview text.";
+            StatusText.Text = "Typed draft is already empty. Use Undo Last Capture to remove preview text.";
             return;
         }
 
         var answer = MessageBox.Show(
-            "Discard the current draft text?",
+            "Clear typed draft text? Captured preview fragments will stay.",
             "NoteMan",
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
@@ -109,7 +109,7 @@ public partial class MainWindow : Window
         }
 
         DraftBox.Clear();
-        StatusText.Text = "Draft reset.";
+        StatusText.Text = "Typed draft cleared.";
     }
 
     private void UndoLastCapture_Click(object sender, RoutedEventArgs e)
