@@ -4,6 +4,8 @@ Windows desktop implementation of NoteMan as a source-aware Workspace Capture Sy
 
 This repository is the C# companion to `noteman-wcs`. The two implementations may have different interfaces, but they should read and write the same workspace format.
 
+Before changing the app, read `docs/CODING_TESTAMENT.md`. It records the research-ethics and compartmentalization principles that guide the design.
+
 ## Goal
 
 NoteMan Desktop should make fast research capture natural on Windows:
