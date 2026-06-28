@@ -1,0 +1,12 @@
+Generate Research Questions
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Generate research questions inspired by this passage. Keep them suitable for academic reading, thesis planning, or literature review development.
+
+Return 5 numbered research questions.

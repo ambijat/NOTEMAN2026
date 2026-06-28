@@ -1,0 +1,16 @@
+Critical Commentary
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Write a short critical commentary on this passage. Identify assumptions, strengths, limitations, and questions I should ask before using it in academic writing.
+
+Return the result under these labels:
+Strength:
+Limitation:
+Question:
+Use with care:

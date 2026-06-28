@@ -1,0 +1,15 @@
+Summarize Research Note
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Summarize this passage into a concise research note. Keep the main claim, important supporting detail, and any key terms.
+
+Return the result under these labels:
+Key idea:
+Useful details:
+Possible use:

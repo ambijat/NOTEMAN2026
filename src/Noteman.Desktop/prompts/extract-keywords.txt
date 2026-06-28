@@ -1,0 +1,15 @@
+Extract Keywords
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Extract useful research keywords, concepts, proper names, methods, variables, and possible search terms from this passage.
+
+Return the result under these labels:
+Keywords:
+Concepts:
+Possible search terms:

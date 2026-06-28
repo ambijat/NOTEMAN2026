@@ -1,0 +1,16 @@
+Compare With Thesis
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Compare this passage with my likely thesis argument. Since my thesis argument is not provided, first infer the possible topic from the passage, then suggest how this source could support, complicate, or challenge an argument.
+
+Return the result under these labels:
+Likely topic:
+Supports:
+Complicates:
+Challenges:

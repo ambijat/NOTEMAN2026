@@ -1,0 +1,16 @@
+Citation Caution
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Help me use this passage safely in academic writing. Identify what needs direct quotation, what can be paraphrased, and what source detail I should preserve.
+
+Return the result under these labels:
+Quote if using exact wording:
+Safe paraphrase idea:
+Source details to preserve:
+Plagiarism risk:

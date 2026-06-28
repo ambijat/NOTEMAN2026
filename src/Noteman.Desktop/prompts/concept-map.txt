@@ -1,0 +1,12 @@
+Concept Map
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Turn this passage into a compact concept map using arrows and short labels. Show relationships between main ideas.
+
+Return only the concept map.

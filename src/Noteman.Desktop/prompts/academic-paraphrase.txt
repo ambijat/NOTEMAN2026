@@ -1,0 +1,12 @@
+Academic Paraphrase
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Paraphrase this in clear academic language while keeping the source meaning intact. Do not overstate the argument. Do not invent citations.
+
+Return only the paraphrased passage.

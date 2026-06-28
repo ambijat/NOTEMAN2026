@@ -9,4 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Noteman.Core\Noteman.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="prompts\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

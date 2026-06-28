@@ -1,6 +1,5 @@
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using Microsoft.Win32;
 using Noteman.Core.Models;
 using Noteman.Core.Storage;
@@ -12,10 +11,12 @@ public partial class MainWindow : Window
     private string? workspacePath;
     private Project? currentProject;
     private Note? currentNote;
+    private readonly List<PromptTemplate> prompts = [];
 
     public MainWindow()
     {
         InitializeComponent();
+        LoadPrompts();
     }
 
     private void ChooseWorkspace_Click(object sender, RoutedEventArgs e)
@@ -140,10 +141,10 @@ public partial class MainWindow : Window
             return;
         }
 
-        var prompt = BuildPrompt(PromptName(), fragment);
+        var prompt = BuildPrompt(SelectedPrompt(), fragment);
         PromptBox.Text = prompt;
         Clipboard.SetText(prompt);
-        StatusText.Text = $"Copied {PromptName()} prompt for {fragment.CitationHeading()}.";
+        StatusText.Text = $"Copied {SelectedPrompt().Title} prompt for {fragment.CitationHeading()}.";
     }
 
     private void PasteAiResult_Click(object sender, RoutedEventArgs e)
@@ -245,36 +246,53 @@ public partial class MainWindow : Window
             ? null
             : currentNote.Fragments[^1];
 
-    private string PromptName() =>
-        PromptChoice.SelectedItem is ComboBoxItem item
-            ? item.Content.ToString() ?? "Summarize"
-            : "Summarize";
-
-    private static string BuildPrompt(string promptName, CaptureFragment fragment)
+    private void LoadPrompts()
     {
-        var task = promptName switch
+        prompts.Clear();
+        var promptDirectory = Path.Combine(AppContext.BaseDirectory, "prompts");
+        if (!Directory.Exists(promptDirectory))
         {
-            "Clean OCR" => "Clean OCR errors, preserve the original meaning, and do not add new facts.",
-            "Summarize" => "Summarize this into a concise research note.",
-            "Thesis Note" => "Convert this into a thesis-ready note with key idea, relevance, and possible use.",
-            "Paraphrase" => "Paraphrase this in academic language while keeping the source meaning intact.",
-            "Keywords" => "Extract keywords, concepts, names, and possible search terms.",
-            _ => "Help me turn this captured text into a useful research note."
-        };
+            prompts.Add(new PromptTemplate("Basic Research Note", "", DefaultPrompt()));
+        }
+        else
+        {
+            foreach (var path in Directory.GetFiles(promptDirectory, "*.txt").OrderBy(Path.GetFileName))
+            {
+                var content = File.ReadAllText(path).Trim();
+                var title = content.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim()
+                    ?? Path.GetFileNameWithoutExtension(path);
+                prompts.Add(new PromptTemplate(title, path, content));
+            }
+        }
 
-        return string.Join("\n", [
-            "You are helping prepare a source-aware research note.",
-            "",
-            $"Source: {fragment.Source.Label}",
-            $"Locator: {fragment.Locator.Display()}",
-            "",
-            "Captured text:",
-            fragment.Text.Trim(),
-            "",
-            "Task:",
-            task,
-            "",
-            "Return only the useful result, not an explanation of your process."
-        ]);
+        PromptChoice.ItemsSource = prompts;
+        PromptChoice.SelectedIndex = prompts.Count > 0 ? 0 : -1;
     }
+
+    private PromptTemplate SelectedPrompt() =>
+        PromptChoice.SelectedItem as PromptTemplate
+        ?? prompts.FirstOrDefault()
+        ?? new PromptTemplate("Basic Research Note", "", DefaultPrompt());
+
+    private static string BuildPrompt(PromptTemplate prompt, CaptureFragment fragment) =>
+        prompt.Body
+            .Replace("{source}", fragment.Source.Label, StringComparison.Ordinal)
+            .Replace("{locator}", fragment.Locator.Display(), StringComparison.Ordinal)
+            .Replace("{fragment_text}", fragment.Text.Trim(), StringComparison.Ordinal);
+
+    private static string DefaultPrompt() =>
+        """
+        Basic Research Note
+
+        Source: {source}
+        Locator: {locator}
+
+        Captured text:
+        {fragment_text}
+
+        Task:
+        Summarize this into a concise source-aware research note.
+        """;
+
+    private sealed record PromptTemplate(string Title, string Path, string Body);
 }

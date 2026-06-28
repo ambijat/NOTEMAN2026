@@ -1,0 +1,16 @@
+Thesis Ready Note
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
+
+Task:
+Convert this into a thesis-ready note in my own words. Preserve the source meaning, avoid plagiarism, and keep the note useful for literature review writing.
+
+Return the result under these labels:
+Claim:
+Explanation:
+Relevance to thesis:
+Caution:
