@@ -54,7 +54,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Typed Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBlock Text="Typed / AI Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
                 <TextBox x:Name="DraftBox"
                          Grid.Row="1"
                          AcceptsReturn="True"
