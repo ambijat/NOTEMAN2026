@@ -55,6 +55,4 @@ Markdown export is a readable representation, not the only durable store.
 ## Source Label, p. 12
 
 Captured text.
-
-<!-- method: clipboard_text; fragment: fragment-id -->
 ```

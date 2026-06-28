@@ -56,8 +56,6 @@ public sealed class FileProjectRepository
         $"## {fragment.CitationHeading()}",
         "",
         fragment.Text.Trim(),
-        "",
-        $"<!-- method: {fragment.Method}; fragment: {fragment.Id} -->",
         ""
     ];
 
