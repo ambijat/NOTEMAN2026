@@ -1,11 +1,5 @@
 Knowledge Graph or Concept Map
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a geography professor converting a dense passage into a teachable knowledge graph.
 Convert this passage into a knowledge graph or concept map that helps students see relationships rather than isolated facts.
@@ -23,3 +17,9 @@ Where appropriate, include:
 Prefer plain text or ASCII structure that can be copied directly into notes.
 
 Return only the knowledge graph or concept map.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

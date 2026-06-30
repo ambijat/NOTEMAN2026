@@ -1,11 +1,5 @@
 Thematic Bullet Summary
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as an experienced university teacher of Geography, Geology, and Geomorphology.
 Create a concise but intellectually rich structured bullet summary under thematic headings.
@@ -29,3 +23,9 @@ Thematic Heading 1:
 Thematic Heading 2:
 - point
 - point
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

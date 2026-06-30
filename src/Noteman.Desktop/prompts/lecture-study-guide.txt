@@ -1,11 +1,5 @@
 University Geography Study Notes
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as an expert university professor preparing a Critical Classroom Teaching Companion for Geography students.
 Produce detailed study notes suitable for university-level geography, especially for honours, postgraduate, civil service, teacher-training, and research-oriented learners.
@@ -36,3 +30,9 @@ Modern context:
 Common misconceptions:
 Blackboard notes:
 Things to remember:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

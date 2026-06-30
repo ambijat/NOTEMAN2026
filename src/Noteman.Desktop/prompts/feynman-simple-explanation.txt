@@ -1,11 +1,5 @@
 Simple Explanation
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a patient university teacher explaining a difficult classical geography passage to students encountering it for the first time.
 Explain the passage in simpler language while preserving its intellectual content.
@@ -29,3 +23,9 @@ Technical terms:
 Background needed:
 Why it matters:
 What I should not oversimplify:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

@@ -1,11 +1,5 @@
 Revision Notes and Exam Questions
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a university geography examiner and classroom teacher.
 Prepare revision notes with possible examination questions based on the passage.
@@ -33,3 +27,9 @@ Essay questions:
 Critical discussion questions:
 Research questions:
 Common misconceptions:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

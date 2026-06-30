@@ -1,11 +1,5 @@
 Himalayan Research Notes
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a postgraduate research mentor preparing notes from a classical geography or geology text.
 Generate research notes focusing on tectonics, drainage evolution, or Himalayan orogeny.
@@ -35,3 +29,9 @@ Modern research update:
 Possible research extensions:
 Use for Himalayan research:
 Caution or uncertainty:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

@@ -1,11 +1,5 @@
 Extract Named Entities
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a research assistant for a university geography project.
 Extract named entities from this passage and make them useful for study, indexing, and later research.
@@ -29,3 +23,9 @@ Researchers or institutions:
 Methods, periods, or concepts:
 Places and regions:
 Unclear or OCR-sensitive entities:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

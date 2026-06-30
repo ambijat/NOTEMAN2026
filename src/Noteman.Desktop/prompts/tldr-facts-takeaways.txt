@@ -1,11 +1,5 @@
 Himalayan Geology Key Arguments
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
 Act as a geography and geomorphology professor reading the passage for Himalayan research value.
 Extract only the key arguments relevant to Himalayan geology and geomorphology.
@@ -30,3 +24,9 @@ Classical interpretation:
 Modern research context:
 Terms or places to preserve:
 Caution or uncertainty:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
