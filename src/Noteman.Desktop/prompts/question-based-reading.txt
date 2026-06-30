@@ -1,4 +1,4 @@
-Question Based Reading
+Revision Notes and Exam Questions
 
 Source: {source}
 Locator: {locator}
@@ -7,10 +7,29 @@ Captured text:
 {fragment_text}
 
 Task:
-Create reading-comprehension questions that help me understand and review this passage.
+Act as a university geography examiner and classroom teacher.
+Prepare revision notes with possible examination questions based on the passage.
+
+Do not create generic questions. Preserve the author's argument, terminology, examples, and intellectual context. Turn the passage into examination-ready material for undergraduate honours, postgraduate, civil service, teacher-training, and research students.
+
+Your revision output should:
+- identify the key ideas students must remember
+- explain difficult concepts briefly before asking questions
+- include factual, analytical, comparative, critical, and research-oriented questions
+- move from very short questions to essay and dissertation-level prompts
+- include likely answer cues so the notes are useful for preparation
+- flag common misconceptions and how to correct them
+- connect the passage to wider geography topics such as geomorphology, geology, regional geography, environment, climate, political geography, GIS, remote sensing, or Himalayan studies where relevant
+
+Make the questions teachable, examinable, and faithful to the captured text.
 
 Return the result under these labels:
-Basic questions:
-Analytical questions:
-Critical questions:
-Questions for further research:
+Revision notes:
+Important terms:
+Very short questions:
+Short-answer questions with cues:
+Long-answer questions with cues:
+Essay questions:
+Critical discussion questions:
+Research questions:
+Common misconceptions:

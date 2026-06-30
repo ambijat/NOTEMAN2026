@@ -1,4 +1,4 @@
-Summarize Research Note
+Himalayan Research Notes
 
 Source: {source}
 Locator: {locator}
@@ -7,9 +7,31 @@ Captured text:
 {fragment_text}
 
 Task:
-Summarize this passage into a concise research note. Keep the main claim, important supporting detail, and any key terms.
+Act as a postgraduate research mentor preparing notes from a classical geography or geology text.
+Generate research notes focusing on tectonics, drainage evolution, or Himalayan orogeny.
+
+The note should preserve the author's voice and argument while making the material usable for literature review, thesis planning, and classroom teaching. Do not reduce the passage to a short summary. Build an annotated research note that quotes or closely retains important original wording, explains concepts, and connects the passage with modern scholarship where relevant.
+
+Include:
+- the research focus suggested by the passage
+- the author's original claim or interpretation
+- evidence, examples, places, and processes mentioned
+- tectonic, drainage, stratigraphic, geomorphic, or orogenic significance
+- background knowledge a student needs before using this source
+- modern research update, such as plate tectonics, GPS, remote sensing, sedimentology, seismicity, climate, or landscape evolution debates
+- possible research extensions, dissertation angles, or GIS/remote-sensing connections
+- cautions about outdated terminology, missing evidence, or overinterpretation
+
+Keep the output academically useful and source-faithful.
 
 Return the result under these labels:
-Key idea:
-Useful details:
-Possible use:
+Research focus:
+Main claim:
+Evidence or examples:
+Key terms:
+Background knowledge:
+Tectonic or geomorphic significance:
+Modern research update:
+Possible research extensions:
+Use for Himalayan research:
+Caution or uncertainty:

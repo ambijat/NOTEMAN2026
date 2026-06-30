@@ -1,4 +1,4 @@
-Structured Bullet Summary
+Thematic Bullet Summary
 
 Source: {source}
 Locator: {locator}
@@ -7,13 +7,25 @@ Captured text:
 {fragment_text}
 
 Task:
-Create a structured bullet-point summary. Organize the bullets under meaningful headings based on the content.
+Act as an experienced university teacher of Geography, Geology, and Geomorphology.
+Create a concise but intellectually rich structured bullet summary under thematic headings.
+
+Do not flatten the passage into a generic summary. Preserve the author's main argument, important original terminology, sequence of reasoning, and any classical vocabulary that matters. Where the OCR or wording is unclear, silently reconstruct the likely meaning without changing the source argument.
+
+For each thematic heading, include:
+- the author's core point in compact bullets
+- essential supporting detail from the passage
+- key terms students must remember
+- brief teaching clarification where students may misunderstand the idea
+- a short note on why the theme matters for geography, geology, geomorphology, regional geography, or environmental studies
+
+Use source-faithful language where useful, but add enough classroom context to make the passage teachable. If modern interpretation is needed, label it clearly as modern context rather than replacing the author's view.
 
 Return the result as:
-Heading 1:
+Thematic Heading 1:
 - point
 - point
 
-Heading 2:
+Thematic Heading 2:
 - point
 - point

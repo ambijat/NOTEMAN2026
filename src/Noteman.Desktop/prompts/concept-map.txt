@@ -1,4 +1,4 @@
-Concept Map
+Knowledge Graph or Concept Map
 
 Source: {source}
 Locator: {locator}
@@ -7,6 +7,19 @@ Captured text:
 {fragment_text}
 
 Task:
-Turn this passage into a compact concept map using arrows and short labels. Show relationships between main ideas.
+Act as a geography professor converting a dense passage into a teachable knowledge graph.
+Convert this passage into a knowledge graph or concept map that helps students see relationships rather than isolated facts.
 
-Return only the concept map.
+Use compact node labels and clear arrows. Preserve the author's conceptual structure, including causes, processes, outcomes, places, geological formations, rivers, theories, scholars, evidence, and debates. Add classroom-useful links where the passage implies them, but do not invent unsupported relationships.
+
+Where appropriate, include:
+- cause -> process -> outcome chains
+- theory -> evidence -> limitation links
+- place -> feature -> significance links
+- classical interpretation -> modern interpretation links
+- geology -> geomorphology -> human or geopolitical relevance links
+- cross-references to related geography topics
+
+Prefer plain text or ASCII structure that can be copied directly into notes.
+
+Return only the knowledge graph or concept map.

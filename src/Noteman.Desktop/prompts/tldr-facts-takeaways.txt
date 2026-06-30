@@ -1,4 +1,4 @@
-TLDR Facts and Takeaways
+Himalayan Geology Key Arguments
 
 Source: {source}
 Locator: {locator}
@@ -7,10 +7,26 @@ Captured text:
 {fragment_text}
 
 Task:
-Extract the concrete facts, claims, definitions, numbers, names, and relationships from this passage. Then write a brief TLDR.
+Act as a geography and geomorphology professor reading the passage for Himalayan research value.
+Extract only the key arguments relevant to Himalayan geology and geomorphology.
+
+Focus on arguments about tectonics, Himalayan orogeny, structure, uplift, erosion, drainage evolution, river capture, stratigraphy, lithology, landforms, climate-geomorphology interaction, seismicity, or landscape evolution. Ignore unrelated background unless it directly supports one of these arguments.
+
+For each key argument:
+- preserve the author's wording or terminology where it carries meaning
+- identify the evidence or observation used
+- explain the geomorphic or geological process involved
+- state why it matters for understanding the Himalaya
+- add modern context carefully, such as plate tectonics, GPS, remote sensing, sediment studies, or current debates, without replacing the author's original view
+- note uncertainty, outdated interpretation, or missing evidence where relevant
+
+Write as a critical teaching companion for students who have not read the original book.
 
 Return the result under these labels:
-Facts:
-Key claims:
-TLDR:
-Usefulness for research:
+Key arguments:
+Supporting evidence:
+Relevant processes:
+Classical interpretation:
+Modern research context:
+Terms or places to preserve:
+Caution or uncertainty:

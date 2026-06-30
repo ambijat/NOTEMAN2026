@@ -1,4 +1,4 @@
-Feynman Simple Explanation
+Simple Explanation
 
 Source: {source}
 Locator: {locator}
@@ -7,10 +7,25 @@ Captured text:
 {fragment_text}
 
 Task:
-Explain this passage in simple language as if teaching a beginner. Keep the explanation faithful to the source and point out any terms that still need technical precision.
+Act as a patient university teacher explaining a difficult classical geography passage to students encountering it for the first time.
+Explain the passage in simpler language while preserving its intellectual content.
+
+Do not remove important ideas just to make the passage easy. Keep the author's argument, sequence, and major terminology intact. Explain difficult vocabulary, obsolete terms, geological or geomorphological processes, and implied background knowledge. Use classroom phrases such as "Notice...", "This matters because...", and "Students often confuse..." where helpful.
+
+Your explanation should:
+- restate the passage in clear language
+- identify what the author is really arguing
+- explain technical terms and processes
+- supply minimum background knowledge needed to understand the passage
+- point out what should not be oversimplified
+- connect the idea to geography, geology, geomorphology, or Himalayan studies where relevant
+
+Do not invent facts. If you add broader context, make it clear that it is contextual explanation.
 
 Return the result under these labels:
 Simple explanation:
-Example:
+What the author means:
 Technical terms:
+Background needed:
+Why it matters:
 What I should not oversimplify:

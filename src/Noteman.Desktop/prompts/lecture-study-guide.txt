@@ -1,4 +1,4 @@
-Lecture Study Guide
+University Geography Study Notes
 
 Source: {source}
 Locator: {locator}
@@ -7,11 +7,32 @@ Captured text:
 {fragment_text}
 
 Task:
-Turn this passage into a study guide suitable for revision.
+Act as an expert university professor preparing a Critical Classroom Teaching Companion for Geography students.
+Produce detailed study notes suitable for university-level geography, especially for honours, postgraduate, civil service, teacher-training, and research-oriented learners.
+
+Do not merely summarize. Preserve the author's intellectual framework while making the passage teachable. Retain important original phrases, classical vocabulary, and technical terms. Add explanation only to clarify, contextualize, or connect the argument.
+
+For the captured passage, reconstruct a classroom-ready note that includes:
+- what the author is trying to teach
+- why the topic matters in geography
+- relevant historical, geological, geomorphological, regional, environmental, or political context
+- technical terms with clear explanations
+- cause-effect relations, processes, and examples
+- modern contextual enrichment, including plate tectonics, remote sensing, GIS, GPS, climate, or current debates where relevant
+- points students commonly misunderstand
+- compact blackboard-style notes useful for teaching
+
+Keep the result substantially richer than the source fragment, but do not invent unsupported claims. If you add current knowledge beyond the passage, mark it as contextual enrichment.
 
 Return the result under these labels:
-Core idea:
+Topic:
+Learning objectives:
+Core ideas:
 Important terms:
-Short explanation:
+Processes or mechanisms:
+Examples or evidence:
+Instructor commentary:
+Modern context:
+Common misconceptions:
+Blackboard notes:
 Things to remember:
-Possible exam questions:
