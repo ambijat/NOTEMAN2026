@@ -156,14 +156,14 @@ public partial class MainWindow : Window
         }
 
         DraftBox.Text = Clipboard.GetText().Trim();
-        StatusText.Text = "Pasted AI result into Typed Draft. Review it before saving.";
+        StatusText.Text = "Pasted AI result into Typed / AI Draft. Review it before saving.";
     }
 
     private void SaveDraftAsFragment_Click(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(DraftBox.Text))
         {
-            StatusText.Text = "Typed Draft is empty.";
+            StatusText.Text = "Typed / AI Draft is empty.";
             return;
         }
 
