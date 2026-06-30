@@ -60,7 +60,7 @@
                          AcceptsReturn="True"
                          AcceptsTab="True"
                          TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto" />
+                         VerticalScrollBarVisibility="Visible" />
             </Grid>
 
             <Grid Grid.Column="2">
@@ -70,12 +70,12 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="240" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Current Note Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBlock Text="Caputre Text Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
                 <TextBox x:Name="PreviewBox"
                          Grid.Row="1"
                          IsReadOnly="True"
                          TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto" />
+                         VerticalScrollBarVisibility="Visible" />
 
                 <Grid Grid.Row="2" Margin="0,12,0,8">
                     <Grid.RowDefinitions>
@@ -102,13 +102,13 @@
                     </Grid.RowDefinitions>
                     <DockPanel Margin="0,0,0,6">
                         <TextBlock Text="AI Prompt Workbench" FontWeight="SemiBold" />
-                        <Button DockPanel.Dock="Right" Content="Save Draft" Click="SaveDraftAsFragment_Click" Width="100" />
+                        <Button DockPanel.Dock="Right" Content="Save (AI) Draft" Click="SaveDraftAsFragment_Click" Width="120" />
                     </DockPanel>
                     <TextBox x:Name="PromptBox"
                              Grid.Row="1"
                              IsReadOnly="True"
                              TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto" />
+                             VerticalScrollBarVisibility="Visible" />
                 </Grid>
             </Grid>
         </Grid>
