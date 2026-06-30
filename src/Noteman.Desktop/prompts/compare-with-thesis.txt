@@ -1,16 +1,35 @@
 Compare With Thesis
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Compare this passage with my likely thesis argument. Since my thesis argument is not provided, first infer the possible topic from the passage, then suggest how this source could support, complicate, or challenge an argument.
+Act as a postgraduate research supervisor helping connect a source passage to a possible thesis argument.
+
+Work goal:
+Infer the likely research topic from the passage and evaluate how this source could support, complicate, challenge, or refine a thesis argument.
+
+Do not force the passage into a thesis it does not support. Preserve the author's actual claim, terminology, evidence, and limits. If the passage concerns geography, geology, geomorphology, Himalayan studies, drainage evolution, regional geography, environment, or political geography, make those connections explicit.
+
+Assess:
+- what research problem the passage seems relevant to
+- what argument it could support
+- where it complicates a simple argument
+- what it challenges or makes uncertain
+- what evidence or quotation might be useful
+- what modern context or later research may be needed before using it
+- how it could become a literature review note, chapter subsection, or research question
+
+Write as practical guidance for thesis planning.
 
 Return the result under these labels:
 Likely topic:
 Supports:
 Complicates:
 Challenges:
+Useful evidence:
+Possible thesis use:
+Further context needed:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

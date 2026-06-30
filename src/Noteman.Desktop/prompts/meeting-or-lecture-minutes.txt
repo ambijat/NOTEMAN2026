@@ -1,13 +1,22 @@
 Meeting or Lecture Minutes
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Extract the important points as if this were lecture notes, meeting notes, or a discussion transcript.
+Act as a precise academic note-taker converting the passage into teachable lecture or discussion minutes.
+
+Work goal:
+Extract the important points as structured minutes that clarify the topic, argument, decisions or conclusions, open questions, and follow-up learning tasks.
+
+Treat the passage as if it came from a lecture, seminar, or reading discussion in geography. Preserve the author's main ideas and terminology, but organize them so a student or teacher can quickly see what was covered and what needs attention.
+
+Include:
+- topic and context
+- main teaching points
+- conclusions or interpretations
+- terms to review
+- questions raised by the passage
+- possible follow-up reading or research tasks
+
+Do not summarize vaguely. Make the work goals and next steps clear.
 
 Return the result under these labels:
 Topic:
@@ -15,3 +24,10 @@ Main points:
 Decisions or conclusions:
 Action items:
 Open questions:
+Terms to review:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

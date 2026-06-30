@@ -1,16 +1,33 @@
 Thesis Ready Note
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Convert this into a thesis-ready note in my own words. Preserve the source meaning, avoid plagiarism, and keep the note useful for literature review writing.
+Act as a thesis writing mentor for geography, geology, and geomorphology research.
+
+Work goal:
+Convert the captured passage into a thesis-ready note in my own words while preserving the source meaning, citation value, and analytical usefulness.
+
+The note should be suitable for literature review drafting. It must distinguish the author's claim from my interpretation, retain important technical terms, avoid plagiarism, and keep evidence and caution attached to the source.
+
+Include:
+- a clear claim in thesis-note form
+- explanation of what the source contributes
+- relevance to a possible thesis argument
+- key terms, places, or processes to preserve
+- caution about limits, outdated interpretation, or missing evidence
+- possible sentence that could later become part of a literature review
+
+Do not overstate the passage. Do not invent citations or modern evidence unless marked as context.
 
 Return the result under these labels:
 Claim:
 Explanation:
 Relevance to thesis:
+Key terms to preserve:
+Literature review use:
 Caution:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

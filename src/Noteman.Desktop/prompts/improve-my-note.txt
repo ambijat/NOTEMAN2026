@@ -1,15 +1,32 @@
 Improve My Note
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Improve the structure, wording, and logic of this note. Keep the meaning and source discipline intact. Do not turn it into unsupported claims.
+Act as an academic note editor for geography research and teaching notes.
+
+Work goal:
+Improve the structure, wording, and logic of the captured note while keeping its meaning, source discipline, and evidentiary caution intact.
+
+Do not turn rough notes into unsupported claims. Clarify the argument, preserve technical terms, separate the author's idea from my commentary, and make the note useful for future literature review, classroom teaching, or thesis drafting.
+
+Improve:
+- logical order
+- academic clarity
+- source-faithful wording
+- concept explanation
+- transitions between ideas
+- citation caution
+- research usefulness
+
+If the original note is too fragmentary, reconstruct cautiously and mark uncertainty.
 
 Return the result under these labels:
 Improved note:
 What changed:
 Citation caution:
+Research or teaching use:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

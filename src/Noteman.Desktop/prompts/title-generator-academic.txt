@@ -1,15 +1,29 @@
 Academic Title Ideas
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Generate possible academic titles or section headings inspired by this passage. Keep them accurate and not sensational.
+Act as an academic editor generating precise titles and section headings for geography notes, lectures, or thesis writing.
+
+Work goal:
+Generate accurate, academically useful title ideas inspired by the passage without exaggerating or sensationalizing the source.
+
+Read the passage for its core concept, place, process, argument, and disciplinary angle. The titles should help organize notes, lecture sections, literature review subsections, or research files. Preserve important terms where useful, especially names of regions, landforms, rivers, geological structures, theories, or processes.
+
+Create titles that are:
+- faithful to the passage
+- specific rather than generic
+- suitable for university geography or geology work
+- clear enough for a file name, note heading, or thesis subsection
+- varied across descriptive, analytical, and research-oriented uses
+
+Do not invent a broader topic than the passage supports.
 
 Return 10 title ideas, grouped as:
 Descriptive:
 Analytical:
 Thesis/literature review:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

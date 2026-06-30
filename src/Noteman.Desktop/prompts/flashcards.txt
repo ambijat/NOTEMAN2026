@@ -1,13 +1,14 @@
 Flashcards
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Create flashcards from this passage. Keep each card concise and factually grounded in the captured text.
+Act as a university geography teacher preparing exam-oriented flashcards.
+
+Work goal:
+Convert the passage into concise, accurate flashcards that help students remember core concepts, terms, arguments, places, processes, and examples.
+
+Do not create generic memory cards. Each flashcard should be grounded in the captured passage and should preserve important terminology. Include cards for definitions, cause-effect relations, classical interpretations, modern relevance, examples, named entities, and common confusions where appropriate.
+
+Keep answers short but meaningful. If the passage is uncertain or OCR-damaged, avoid making a false definitive card.
 
 Return as plain text in this format:
 Q: question
@@ -15,3 +16,9 @@ A: answer
 
 Q: question
 A: answer
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

@@ -1,16 +1,28 @@
 Critical Commentary
 
+Task:
+Act as a critical university instructor commenting on a geography, geology, or geomorphology passage.
+
+Work goal:
+Produce a disciplined critical commentary that helps students understand the passage, use it carefully, and see its assumptions and limits.
+
+Do not dismiss the author casually. First reconstruct what the author is trying to argue. Then identify strengths, assumptions, missing evidence, possible outdated interpretation, conceptual limits, and questions that should be asked before using the passage in teaching or research.
+
+Where relevant, compare the classical interpretation with modern geography, geology, geomorphology, plate tectonics, remote sensing, climate research, political geography, or environmental studies. Keep the distinction between the author's view and modern commentary clear.
+
+Make the commentary useful for classroom discussion, thesis reading notes, and exam preparation.
+
+Return the result under these labels:
+Author's argument:
+Strength:
+Limitation:
+Assumptions:
+Question:
+Use with care:
+Modern context:
+
 Source: {source}
 Locator: {locator}
 
 Captured text:
 {fragment_text}
-
-Task:
-Write a short critical commentary on this passage. Identify assumptions, strengths, limitations, and questions I should ask before using it in academic writing.
-
-Return the result under these labels:
-Strength:
-Limitation:
-Question:
-Use with care:

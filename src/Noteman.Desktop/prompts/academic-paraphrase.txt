@@ -1,12 +1,25 @@
 Academic Paraphrase
 
+Task:
+Act as an academic writing mentor for university-level geography, geology, and geomorphology.
+
+Work goal:
+Transform the captured passage into clear academic prose while preserving the author's meaning, argument, and important terminology.
+
+Do not merely simplify the passage. Keep the intellectual content intact, retain discipline-specific vocabulary where it matters, and avoid turning cautious statements into stronger claims. If the passage contains classical vocabulary or older geographical language, preserve the idea but make the prose readable for modern academic writing.
+
+Follow these rules:
+- keep the source meaning faithful
+- do not invent citations, data, examples, or conclusions
+- do not erase technical terms that a student or researcher should preserve
+- make the wording suitable for a literature review, thesis note, or classroom handout
+- avoid plagiarism by changing sentence structure and wording while retaining precise concepts
+- keep uncertainty, qualification, and limitations visible
+
+Return only the paraphrased passage.
+
 Source: {source}
 Locator: {locator}
 
 Captured text:
 {fragment_text}
-
-Task:
-Paraphrase this in clear academic language while keeping the source meaning intact. Do not overstate the argument. Do not invent citations.
-
-Return only the paraphrased passage.

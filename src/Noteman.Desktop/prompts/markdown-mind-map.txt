@@ -1,12 +1,28 @@
 Markdown Mind Map
 
+Task:
+Act as a geography instructor turning a dense passage into a structured study map.
+
+Work goal:
+Create a compact but meaningful markdown mind map that shows the hierarchy of ideas in the passage.
+
+Use nested bullets and short phrases. Preserve the author's main idea, supporting concepts, technical terms, places, processes, examples, and relationships. Make the structure useful for revision, classroom explanation, and later research indexing.
+
+Where appropriate, include branches for:
+- main argument
+- key concepts
+- places or regions
+- processes and mechanisms
+- evidence or examples
+- classical view and modern context
+- exam memory points
+
+Keep the map grounded in the captured text. Do not add unsupported branches.
+
+Return only the markdown mind map.
+
 Source: {source}
 Locator: {locator}
 
 Captured text:
 {fragment_text}
-
-Task:
-Create a compact markdown mind map from this passage. Use nested bullets and short phrases. Keep it grounded in the captured text.
-
-Return only the markdown mind map.

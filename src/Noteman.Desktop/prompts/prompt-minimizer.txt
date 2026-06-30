@@ -1,15 +1,36 @@
 Prompt Minimizer
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Condense this captured text into the shortest useful version for asking another AI question later. Preserve source-relevant facts, technical terms, and uncertainties.
+Act as a prompt engineer for academic geography research.
+
+Work goal:
+Compress the captured passage into the shortest useful context that can be pasted into another AI prompt without losing the source's essential meaning.
+
+Do not create a general summary. Preserve the information another AI would need to answer accurately: author claim, key terms, places, processes, evidence, uncertainties, source details, and the specific research or teaching angle. Remove repetition, OCR noise, and non-essential wording.
+
+Keep:
+- core argument
+- technical terms
+- named entities
+- page/source context
+- uncertainty or caution
+- research relevance
+
+Omit:
+- decorative phrasing
+- duplicated OCR fragments
+- details irrelevant to the next AI task
+
+Make the compressed context compact but not intellectually thin.
 
 Return the result under these labels:
 Compressed context:
 Must preserve:
 Can omit:
+Best next AI task:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

@@ -1,12 +1,26 @@
 Generate Research Questions
 
+Task:
+Act as a postgraduate supervisor helping turn a geography passage into researchable questions.
+
+Work goal:
+Generate strong research questions inspired by the passage for academic reading, thesis planning, literature review development, or dissertation design.
+
+The questions must grow from the captured text, not from generic geography topics. Preserve the author's concepts, places, processes, and evidence. Where appropriate, connect the passage to tectonics, geomorphology, drainage evolution, Himalayan orogeny, regional geography, environmental change, GIS, remote sensing, climate, or political geography.
+
+Make the questions:
+- specific enough to research
+- open-ended enough for analysis
+- connected to evidence or method
+- suitable for literature review or field/data work
+- aware of classical versus modern interpretations
+
+For each question, add a brief note explaining why it matters.
+
+Return 5 numbered research questions with one-line rationale for each.
+
 Source: {source}
 Locator: {locator}
 
 Captured text:
 {fragment_text}
-
-Task:
-Generate research questions inspired by this passage. Keep them suitable for academic reading, thesis planning, or literature review development.
-
-Return 5 numbered research questions.

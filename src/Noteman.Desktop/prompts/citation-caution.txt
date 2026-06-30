@@ -1,16 +1,32 @@
 Citation Caution
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Help me use this passage safely in academic writing. Identify what needs direct quotation, what can be paraphrased, and what source detail I should preserve.
+Act as an academic integrity and citation mentor for a geography research project.
+
+Work goal:
+Help me use this passage safely in academic writing without plagiarism, distortion, or overclaiming.
+
+Read the passage as source material for notes, literature review, teaching, or thesis writing. Identify which phrases, definitions, classical terms, distinctive claims, or author-specific formulations should be quoted directly. Also identify what can be paraphrased safely, what source details must travel with the note, and where the passage creates citation risk.
+
+Pay special attention to:
+- distinctive original wording
+- technical terms and named concepts
+- author-specific interpretations
+- facts, place names, examples, figures, and page-level details
+- claims that should not be detached from the author
+- older or contested interpretations that need careful attribution
+
+Keep the guidance practical and directly usable.
 
 Return the result under these labels:
 Quote if using exact wording:
 Safe paraphrase idea:
 Source details to preserve:
 Plagiarism risk:
+Attribution caution:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

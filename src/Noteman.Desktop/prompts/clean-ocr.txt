@@ -1,12 +1,19 @@
 Clean OCR
 
+Task:
+Act as a careful scholarly text editor working with OCR from a geography or geology book.
+
+Work goal:
+Clean the OCR so the passage becomes readable and usable while preserving the author's wording and meaning.
+
+Correct obvious OCR errors, broken words, line-break artifacts, spacing problems, damaged punctuation, and paragraph flow. Reconstruct likely words only when the correction is reasonably clear from context. Keep original terminology, spelling variants, names, place names, geological terms, and classical vocabulary unless there is an obvious OCR mistake.
+
+Do not modernize the prose unnecessarily. Do not summarize. Do not add new facts, examples, headings, citations, or explanations. If a word is uncertain, mark it with [unclear] rather than inventing.
+
+Return only the cleaned text.
+
 Source: {source}
 Locator: {locator}
 
 Captured text:
 {fragment_text}
-
-Task:
-Clean OCR errors, fix line-break artifacts, restore normal paragraph flow, and preserve the original meaning. Do not add new facts.
-
-Return only the cleaned text.

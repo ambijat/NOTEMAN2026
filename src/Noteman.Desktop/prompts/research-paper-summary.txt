@@ -1,13 +1,22 @@
 Research Paper Summary
 
-Source: {source}
-Locator: {locator}
-
-Captured text:
-{fragment_text}
-
 Task:
-Summarize this as part of a research paper or academic article. If any category is not visible in the passage, write "not available in this fragment."
+Act as a research methods instructor reading the passage as part of an academic article, chapter, or scholarly argument.
+
+Work goal:
+Extract the research-paper value of the passage: problem, argument, method, evidence, findings, limits, and relevance to future work.
+
+Do not force categories that are not present. If a category is not visible, write "not available in this fragment." Preserve the author's actual argument and avoid inventing methodology or findings.
+
+Where the passage comes from a classical geography text rather than a modern paper, translate its scholarly function carefully:
+- What problem is the author addressing?
+- What explanation or interpretation is offered?
+- What evidence, examples, places, or observations support it?
+- What assumptions or limitations are visible?
+- How could a modern researcher use or test this argument?
+- What is its relevance for geography, geology, geomorphology, regional studies, or Himalayan research?
+
+Keep the output useful for literature review notes.
 
 Return the result under these labels:
 Research problem:
@@ -17,3 +26,10 @@ Evidence:
 Findings:
 Limitations:
 Relevance to my work:
+Modern research connection:
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
