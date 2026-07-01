@@ -18,6 +18,7 @@ public partial class MainWindow : Window
     private Project? currentProject;
     private Note? currentNote;
     private Dictionary<string, string> noteChoiceIndex = [];
+    private bool draftLoadedFromNote;
     private readonly List<PromptTemplate> prompts = [];
 
     public MainWindow()
@@ -70,6 +71,7 @@ public partial class MainWindow : Window
         currentProject = LoadOrCreateProject(projectName);
         currentNote = Note.Create(noteTitle);
         DraftBox.Clear();
+        draftLoadedFromNote = false;
         UpdatePreview();
         MessageBox.Show($"New note with {noteTitle} created.", "NoteMan");
         StatusText.Text = $"New note with {noteTitle} created.";
@@ -105,7 +107,7 @@ public partial class MainWindow : Window
 
         EnsureNote();
 
-        if (!string.IsNullOrWhiteSpace(DraftBox.Text))
+        if (!string.IsNullOrWhiteSpace(DraftBox.Text) && !DraftMatchesLoadedAiRetrieval())
         {
             AddFragment(DraftBox.Text, ExtractionMethods.Manual, clearDraft: true);
         }
@@ -137,6 +139,7 @@ public partial class MainWindow : Window
         }
 
         DraftBox.Clear();
+        draftLoadedFromNote = false;
         StatusText.Text = "Typed draft cleared.";
     }
 
@@ -182,6 +185,7 @@ public partial class MainWindow : Window
         }
 
         DraftBox.Text = Clipboard.GetText().Trim();
+        draftLoadedFromNote = false;
         StatusText.Text = "Pasted AI result into Typed / AI Draft. Review it before saving.";
     }
 
@@ -190,6 +194,11 @@ public partial class MainWindow : Window
         if (string.IsNullOrWhiteSpace(DraftBox.Text))
         {
             StatusText.Text = "Typed / AI Draft is empty.";
+            return;
+        }
+        if (DraftMatchesLoadedAiRetrieval())
+        {
+            StatusText.Text = "Loaded AI draft text is already saved.";
             return;
         }
 
@@ -206,6 +215,7 @@ public partial class MainWindow : Window
 
         currentNote!.AddFragment(fragment);
         DraftBox.Clear();
+        draftLoadedFromNote = false;
         UpdatePreview();
         RefreshProjectChoices();
         RefreshNoteChoices();
@@ -220,6 +230,7 @@ public partial class MainWindow : Window
         if (clearDraft)
         {
             DraftBox.Clear();
+            draftLoadedFromNote = false;
         }
 
         UpdatePreview();
@@ -257,7 +268,27 @@ public partial class MainWindow : Window
     {
         PreviewBox.Text = currentNote is null
             ? ""
-            : FileProjectRepository.RenderNoteMarkdown(currentNote);
+            : RenderNoteByAiMethod(includeAi: false);
+    }
+
+    private string RenderNoteByAiMethod(bool includeAi)
+    {
+        if (currentNote is null)
+        {
+            return "";
+        }
+
+        var lines = new List<string> { $"# {currentNote.Title}", "" };
+        foreach (var fragment in currentNote.Fragments)
+        {
+            var isAi = fragment.Method == ExtractionMethods.AiDraft;
+            if (isAi == includeAi)
+            {
+                lines.AddRange(FileProjectRepository.RenderFragment(fragment));
+            }
+        }
+
+        return string.Join("\n", lines).TrimEnd() + "\n";
     }
 
     private void RefreshProjectChoices()
@@ -337,10 +368,19 @@ public partial class MainWindow : Window
         currentProject = LoadOrCreateProject(projectName);
         currentNote = note;
         NoteChoice.Text = note.Title;
-        DraftBox.Clear();
+        var aiRetrieval = RenderNoteByAiMethod(includeAi: true);
+        DraftBox.Text = aiRetrieval.Trim() == $"# {note.Title}" ? "" : aiRetrieval;
+        draftLoadedFromNote = !string.IsNullOrWhiteSpace(DraftBox.Text);
         UpdatePreview();
         StatusText.Text = "Loaded existing note.";
         return true;
+    }
+
+    private bool DraftMatchesLoadedAiRetrieval()
+    {
+        return draftLoadedFromNote
+            && currentNote is not null
+            && string.Equals(DraftBox.Text.Trim(), RenderNoteByAiMethod(includeAi: true).Trim(), StringComparison.Ordinal);
     }
 
     private Project LoadOrCreateProject(string projectName)
