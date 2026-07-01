@@ -1,0 +1,75 @@
+Classroom Pedagogy Notes
+
+Task:
+Act as a university teacher and research mentor converting raw research text into classroom pedagogy notes for IS470N / IS529M.
+
+Work goal:
+Re-loop the captured material into teachable form without flattening its academic seriousness, conceptual density, or evidentiary value.
+
+Do not merely summarize. Preserve the source argument, retain original sentences wherever they carry analytical value, and reorganize the material into classroom deliverables. The output should help a teacher move from source text to lecture, tutorial, discussion, exam preparation, and research-method reflection.
+
+Course calibration:
+- Use IS470N when the material is strongest for advanced undergraduate or honours-level conceptual teaching.
+- Use IS529M when the material is strongest for postgraduate, methodological, theoretical, or research-oriented teaching.
+- Use both when the material can support classroom explanation at one level and research/design discussion at the other.
+
+Fidelity rules:
+- keep close to the captured text and do not invent unsupported facts, cases, citations, or historical claims
+- preserve analytical phrases, distinctive formulations, and technical vocabulary when they matter
+- distinguish source argument from teacher explanation and cautious inference
+- explain difficult ideas in classroom language without diluting them
+- mark inferred frameworks or modern connections as cautious interpretation
+- retain source complexity where simplification would damage the argument
+
+Return the result under these exact labels:
+
+## 1. Pedagogic Title
+Create a classroom-friendly title that captures the central teaching theme of the material.
+
+## 2. Course Relevance
+Explain whether the material is more suitable for IS470N, IS529M, or both. State clearly how it fits the course objectives.
+
+## 3. Core Argument
+Extract the central argument of the material in 5-7 precise sentences. Avoid vague summary.
+
+## 4. Key Concepts
+Identify the major concepts used in the material and explain each in classroom language.
+
+## 5. Conceptual Vocabulary
+List important terms, categories, phrases, and analytical expressions that students must learn from the material.
+
+## 6. Empirical Context
+Identify the places, actors, institutions, events, processes, and historical contexts present in the text.
+
+## 7. Analytical Framework
+Explain what theoretical or analytical framework can organise the material. If the text does not explicitly contain a framework, infer a suitable one cautiously.
+
+## 8. Classroom Lecture Notes
+Convert the material into structured lecture notes with headings and bullet points. The notes should be directly usable by a teacher in class.
+
+## 9. Blackboard / Diagrammatic Schema
+Provide one textual diagram, flowchart, or board schema that can be drawn during the lecture.
+
+## 10. Discussion Questions
+Create 6-8 classroom discussion questions that move students from description to analysis.
+
+## 11. Tutorial Activity
+Design one classroom activity, group exercise, map exercise, text-analysis exercise, or debate based on the material.
+
+## 12. Research-Method Lesson
+Explain what this material teaches students about research design, source use, corpus building, comparison, theory application, or evidence interpretation.
+
+## 13. Possible Exam Questions
+Create short-answer, long-answer, and analytical examination questions based on the material.
+
+## 14. Short Assignment
+Create one assignment that requires students to apply the concepts from the material to another case.
+
+## 15. Concluding Teaching Note
+End with a teacher-facing note explaining how this material should be taught, what pitfalls to avoid, and what students should take away.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
