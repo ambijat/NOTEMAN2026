@@ -67,16 +67,12 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (LoadNoteForDisplay(noteTitle))
-        {
-            return;
-        }
-
         currentProject = LoadOrCreateProject(projectName);
         currentNote = Note.Create(noteTitle);
         DraftBox.Clear();
         UpdatePreview();
-        StatusText.Text = "New note ready.";
+        MessageBox.Show($"New note with {noteTitle} created.", "NoteMan");
+        StatusText.Text = $"New note with {noteTitle} created.";
     }
 
     private void PasteClipboardText_Click(object sender, RoutedEventArgs e)
