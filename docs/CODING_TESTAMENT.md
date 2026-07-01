@@ -61,6 +61,9 @@ The app should make movement between compartments deliberate and visible.
 13. Choose the principal repository with the platform.
     Ubuntu and Linux work belongs first in `noteman-wcs`; Windows desktop work belongs first in `noteman-desktop`.
 
+14. Begin Windows parity work from a handoff.
+    `noteman-desktop` should implement completed `noteman-wcs` behavior from a platform parity handoff, preserving the same research function over the same workspace format.
+
 ## Design Shape
 
 The intended workflow is:

@@ -4,6 +4,8 @@ Windows desktop implementation of NoteMan as a source-aware Workspace Capture Sy
 
 This repository is the C# companion to `noteman-wcs`. The two implementations may have different interfaces, but they should read and write the same workspace format.
 
+When Windows work follows a completed Python session, begin from a platform parity handoff. The goal is not identical source code; it is identical research behavior across OS and language boundaries.
+
 Before changing the app, read `docs/CODING_TESTAMENT.md`. It records the research-ethics and compartmentalization principles that guide the design.
 
 ## Goal
@@ -27,6 +29,7 @@ Source -> Locator -> Extraction -> Fragment -> Note -> Review
 
 - `src/Noteman.Core`: domain model and file-based persistence
 - `src/Noteman.Desktop`: WPF desktop shell
+- `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`: Windows parity checklist for mirroring completed `noteman-wcs` behavior
 
 ## Build
 
