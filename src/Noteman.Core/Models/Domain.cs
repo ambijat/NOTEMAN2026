@@ -26,6 +26,7 @@ public static class LocatorKinds
 public static class ExtractionMethods
 {
     public const string Manual = "manual";
+    public const string AiDraft = "ai_draft";
     public const string ClipboardText = "clipboard_text";
     public const string ClipboardOcr = "clipboard_ocr";
     public const string ImageOcr = "image_ocr";

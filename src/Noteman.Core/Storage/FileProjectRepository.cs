@@ -23,6 +23,7 @@ public sealed class FileProjectRepository
         var projectPath = Path.Combine(workspace, project.Name);
         Directory.CreateDirectory(projectPath);
         Directory.CreateDirectory(Path.Combine(projectPath, "assets"));
+        Directory.CreateDirectory(Path.Combine(projectPath, "ai_corpus"));
         Directory.CreateDirectory(Path.Combine(projectPath, "notes"));
         WriteJson(Path.Combine(projectPath, "project.json"), project);
         return projectPath;
@@ -37,6 +38,27 @@ public sealed class FileProjectRepository
 
         File.WriteAllText(markdownPath, RenderNoteMarkdown(note), Encoding.UTF8);
         WriteJson(jsonPath, note);
+        return markdownPath;
+    }
+
+    public string SaveAiCorpusEntry(Project project, Note note, CaptureFragment fragment)
+    {
+        var projectPath = CreateProject(project);
+        var corpusPath = Path.Combine(projectPath, "ai_corpus");
+        var entryName = $"{note.Id}-{fragment.Id}";
+        var markdownPath = Path.Combine(corpusPath, $"{entryName}.md");
+        var jsonPath = Path.Combine(corpusPath, $"{entryName}.json");
+
+        File.WriteAllText(markdownPath, RenderAiCorpusMarkdown(note, fragment), Encoding.UTF8);
+        WriteJson(
+            jsonPath,
+            new AiCorpusEntry(
+                entryName,
+                note.Id,
+                note.Title,
+                fragment,
+                fragment.CreatedAt));
+
         return markdownPath;
     }
 
@@ -59,8 +81,36 @@ public sealed class FileProjectRepository
         ""
     ];
 
+    public static string RenderAiCorpusMarkdown(Note note, CaptureFragment fragment)
+    {
+        var lines = new List<string>
+        {
+            "# AI Draft Corpus Entry",
+            "",
+            $"Note: {note.Title}",
+            $"Note ID: {note.Id}",
+            $"Fragment ID: {fragment.Id}",
+            $"Source: {fragment.CitationHeading()}",
+            $"Method: {fragment.Method}",
+            "",
+            "## Draft Text",
+            "",
+            fragment.Text.Trim(),
+            ""
+        };
+
+        return string.Join("\n", lines);
+    }
+
     private void WriteJson<T>(string path, T value)
     {
         File.WriteAllText(path, JsonSerializer.Serialize(value, jsonOptions), Encoding.UTF8);
     }
+
+    private sealed record AiCorpusEntry(
+        string Id,
+        string NoteId,
+        string NoteTitle,
+        CaptureFragment Fragment,
+        string CreatedAt);
 }

@@ -186,25 +186,27 @@ public partial class MainWindow : Window
             return;
         }
 
-        AddFragment(DraftBox.Text, ExtractionMethods.Manual, clearDraft: true);
+        if (string.IsNullOrWhiteSpace(workspacePath) || !Directory.Exists(workspacePath))
+        {
+            MessageBox.Show("Choose a workspace before saving AI draft.", "NoteMan");
+            return;
+        }
+
+        EnsureNote();
+        var fragment = BuildFragment(DraftBox.Text, ExtractionMethods.AiDraft);
+        var repository = new FileProjectRepository(workspacePath);
+        var corpusPath = repository.SaveAiCorpusEntry(currentProject!, currentNote!, fragment);
+
+        currentNote!.AddFragment(fragment);
+        DraftBox.Clear();
+        UpdatePreview();
+        StatusText.Text = $"Saved AI draft to {corpusPath}.";
     }
 
     private void AddFragment(string text, string method, bool clearDraft = false)
     {
         EnsureNote();
-        var sourceLabel = Clean(SourceBox.Text);
-        if (sourceLabel.Length == 0 || sourceLabel == "Reference...")
-        {
-            sourceLabel = "Unknown";
-        }
-
-        var locatorValue = Clean(LocatorBox.Text);
-        var fragment = CaptureFragment.Create(
-            text,
-            new Source(sourceLabel),
-            new Locator(locatorValue, locatorValue.Length == 0 ? LocatorKinds.None : LocatorKinds.Page),
-            method);
-
+        var fragment = BuildFragment(text, method);
         currentNote!.AddFragment(fragment);
         if (clearDraft)
         {
@@ -213,6 +215,22 @@ public partial class MainWindow : Window
 
         UpdatePreview();
         StatusText.Text = $"Captured fragment from {fragment.CitationHeading()}.";
+    }
+
+    private CaptureFragment BuildFragment(string text, string method)
+    {
+        var sourceLabel = Clean(SourceBox.Text);
+        if (sourceLabel.Length == 0 || sourceLabel == "Reference...")
+        {
+            sourceLabel = "Unknown";
+        }
+
+        var locatorValue = Clean(LocatorBox.Text);
+        return CaptureFragment.Create(
+            text,
+            new Source(sourceLabel),
+            new Locator(locatorValue, locatorValue.Length == 0 ? LocatorKinds.None : LocatorKinds.Page),
+            method);
     }
 
     private void ChangePage(int delta)
