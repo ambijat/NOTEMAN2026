@@ -38,6 +38,7 @@ public partial class MainWindow : Window
             workspacePath = dialog.FolderName;
             lastWorkspacePath = workspacePath;
             WorkspacePathText.Text = workspacePath;
+            RefreshProjectChoices();
             try
             {
                 SaveLastWorkspace(workspacePath);
@@ -55,7 +56,7 @@ public partial class MainWindow : Window
 
     private void NewNote_Click(object sender, RoutedEventArgs e)
     {
-        var projectName = Clean(ProjectNameBox.Text);
+        var projectName = Clean(ProjectChoice.Text);
         var noteTitle = Clean(NoteTitleBox.Text);
         if (projectName.Length == 0 || noteTitle.Length == 0)
         {
@@ -107,6 +108,7 @@ public partial class MainWindow : Window
 
         var repository = new FileProjectRepository(workspacePath!);
         var notePath = repository.SaveNote(currentProject!, currentNote!);
+        RefreshProjectChoices();
         StatusText.Text = $"Exported to {notePath}";
     }
 
@@ -200,6 +202,7 @@ public partial class MainWindow : Window
         currentNote!.AddFragment(fragment);
         DraftBox.Clear();
         UpdatePreview();
+        RefreshProjectChoices();
         StatusText.Text = $"Saved AI draft to {corpusPath}.";
     }
 
@@ -249,6 +252,18 @@ public partial class MainWindow : Window
         PreviewBox.Text = currentNote is null
             ? ""
             : FileProjectRepository.RenderNoteMarkdown(currentNote);
+    }
+
+    private void RefreshProjectChoices()
+    {
+        if (string.IsNullOrWhiteSpace(workspacePath))
+        {
+            return;
+        }
+
+        var currentText = ProjectChoice.Text;
+        ProjectChoice.ItemsSource = new FileProjectRepository(workspacePath).ListProjectNames();
+        ProjectChoice.Text = currentText;
     }
 
     private bool EnsureWorkspace()

@@ -25,7 +25,7 @@
                     <TextBlock x:Name="WorkspacePathText" TextWrapping="Wrap" Foreground="#57606A" Margin="0,0,0,16" />
 
                     <TextBlock Text="Project" FontWeight="SemiBold" Margin="0,0,0,6" />
-                    <TextBox x:Name="ProjectNameBox" Text="Thesis Notes" Margin="0,0,0,8" />
+                    <ComboBox x:Name="ProjectChoice" IsEditable="True" Text="Thesis Notes" Margin="0,0,0,8" />
 
                     <TextBlock Text="Note" FontWeight="SemiBold" Margin="0,0,0,6" />
                     <TextBox x:Name="NoteTitleBox" Text="Chapter One" Margin="0,0,0,8" />

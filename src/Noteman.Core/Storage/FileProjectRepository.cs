@@ -41,6 +41,22 @@ public sealed class FileProjectRepository
         return markdownPath;
     }
 
+    public IReadOnlyList<string> ListProjectNames()
+    {
+        if (!Directory.Exists(workspace))
+        {
+            return [];
+        }
+
+        return Directory.EnumerateDirectories(workspace)
+            .Where(path => File.Exists(Path.Combine(path, "project.json")))
+            .Select(Path.GetFileName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name!)
+            .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
     public string SaveAiCorpusEntry(Project project, Note note, CaptureFragment fragment)
     {
         var projectPath = CreateProject(project);
