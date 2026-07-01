@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.Win32;
 using Noteman.Core.Models;
 using Noteman.Core.Storage;
@@ -16,6 +17,7 @@ public partial class MainWindow : Window
     private string? lastWorkspacePath;
     private Project? currentProject;
     private Note? currentNote;
+    private Dictionary<string, string> noteChoiceIndex = [];
     private readonly List<PromptTemplate> prompts = [];
 
     public MainWindow()
@@ -39,6 +41,7 @@ public partial class MainWindow : Window
             lastWorkspacePath = workspacePath;
             WorkspacePathText.Text = workspacePath;
             RefreshProjectChoices();
+            RefreshNoteChoices();
             try
             {
                 SaveLastWorkspace(workspacePath);
@@ -57,14 +60,19 @@ public partial class MainWindow : Window
     private void NewNote_Click(object sender, RoutedEventArgs e)
     {
         var projectName = Clean(ProjectChoice.Text);
-        var noteTitle = Clean(NoteTitleBox.Text);
+        var noteTitle = Clean(NoteChoice.Text);
         if (projectName.Length == 0 || noteTitle.Length == 0)
         {
             MessageBox.Show("Project and note title are required.", "NoteMan");
             return;
         }
 
-        currentProject = Project.Create(projectName);
+        if (LoadNoteForDisplay(noteTitle))
+        {
+            return;
+        }
+
+        currentProject = LoadOrCreateProject(projectName);
         currentNote = Note.Create(noteTitle);
         DraftBox.Clear();
         UpdatePreview();
@@ -109,6 +117,7 @@ public partial class MainWindow : Window
         var repository = new FileProjectRepository(workspacePath!);
         var notePath = repository.SaveNote(currentProject!, currentNote!);
         RefreshProjectChoices();
+        RefreshNoteChoices();
         StatusText.Text = $"Exported to {notePath}";
     }
 
@@ -203,6 +212,7 @@ public partial class MainWindow : Window
         DraftBox.Clear();
         UpdatePreview();
         RefreshProjectChoices();
+        RefreshNoteChoices();
         StatusText.Text = $"Saved AI draft to {corpusPath}.";
     }
 
@@ -264,6 +274,87 @@ public partial class MainWindow : Window
         var currentText = ProjectChoice.Text;
         ProjectChoice.ItemsSource = new FileProjectRepository(workspacePath).ListProjectNames();
         ProjectChoice.Text = currentText;
+    }
+
+    private void RefreshNoteChoices()
+    {
+        if (string.IsNullOrWhiteSpace(workspacePath))
+        {
+            return;
+        }
+
+        var currentText = NoteChoice.Text;
+        var summaries = new FileProjectRepository(workspacePath).ListNoteSummaries(Clean(ProjectChoice.Text));
+        var titleCounts = summaries
+            .GroupBy(summary => summary.Title)
+            .ToDictionary(group => group.Key, group => group.Count(), StringComparer.Ordinal);
+
+        noteChoiceIndex = [];
+        var values = new List<string>();
+        foreach (var summary in summaries)
+        {
+            var display = titleCounts[summary.Title] == 1
+                ? summary.Title
+                : $"{summary.Title} [{summary.Id}]";
+            noteChoiceIndex[display] = summary.Id;
+            values.Add(display);
+        }
+
+        NoteChoice.ItemsSource = values;
+        NoteChoice.Text = currentText;
+    }
+
+    private void ProjectChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ProjectChoice.SelectedItem is string selectedProject)
+        {
+            ProjectChoice.Text = selectedProject;
+        }
+
+        RefreshNoteChoices();
+    }
+
+    private void ProjectChoice_LostFocus(object sender, RoutedEventArgs e) => RefreshNoteChoices();
+
+    private void NoteChoice_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var display = NoteChoice.SelectedItem as string ?? Clean(NoteChoice.Text);
+        LoadNoteForDisplay(display);
+    }
+
+    private bool LoadNoteForDisplay(string display)
+    {
+        if (string.IsNullOrWhiteSpace(workspacePath) || !noteChoiceIndex.TryGetValue(display, out var noteId))
+        {
+            return false;
+        }
+
+        var projectName = Clean(ProjectChoice.Text);
+        var repository = new FileProjectRepository(workspacePath);
+        var note = repository.LoadNote(projectName, noteId);
+        if (note is null)
+        {
+            StatusText.Text = "Selected note could not be loaded.";
+            return false;
+        }
+
+        currentProject = LoadOrCreateProject(projectName);
+        currentNote = note;
+        NoteChoice.Text = note.Title;
+        DraftBox.Clear();
+        UpdatePreview();
+        StatusText.Text = "Loaded existing note.";
+        return true;
+    }
+
+    private Project LoadOrCreateProject(string projectName)
+    {
+        if (string.IsNullOrWhiteSpace(workspacePath))
+        {
+            return Project.Create(projectName);
+        }
+
+        return new FileProjectRepository(workspacePath).LoadProject(projectName) ?? Project.Create(projectName);
     }
 
     private bool EnsureWorkspace()

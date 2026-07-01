@@ -4,6 +4,8 @@ using Noteman.Core.Models;
 
 namespace Noteman.Core.Storage;
 
+public sealed record NoteSummary(string Id, string Title);
+
 public sealed class FileProjectRepository
 {
     private readonly string workspace;
@@ -55,6 +57,68 @@ public sealed class FileProjectRepository
             .Select(name => name!)
             .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
             .ToList();
+    }
+
+    public Project? LoadProject(string projectName)
+    {
+        var projectPath = Path.Combine(workspace, projectName, "project.json");
+        try
+        {
+            return File.Exists(projectPath)
+                ? JsonSerializer.Deserialize<Project>(File.ReadAllText(projectPath), jsonOptions)
+                : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+        {
+            return null;
+        }
+    }
+
+    public IReadOnlyList<NoteSummary> ListNoteSummaries(string projectName)
+    {
+        var notesPath = Path.Combine(workspace, projectName, "notes");
+        if (!Directory.Exists(notesPath))
+        {
+            return [];
+        }
+
+        var summaries = new List<NoteSummary>();
+        foreach (var path in Directory.EnumerateFiles(notesPath, "*.json"))
+        {
+            try
+            {
+                var note = JsonSerializer.Deserialize<Note>(File.ReadAllText(path), jsonOptions);
+                if (note is not null)
+                {
+                    summaries.Add(new NoteSummary(note.Id, note.Title));
+                }
+            }
+            catch (Exception ex)
+                when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+            {
+                continue;
+            }
+        }
+
+        return summaries
+            .OrderBy(summary => summary.Title, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(summary => summary.Id, StringComparer.Ordinal)
+            .ToList();
+    }
+
+    public Note? LoadNote(string projectName, string noteId)
+    {
+        var notePath = Path.Combine(workspace, projectName, "notes", $"{noteId}.json");
+        try
+        {
+            return File.Exists(notePath)
+                ? JsonSerializer.Deserialize<Note>(File.ReadAllText(notePath), jsonOptions)
+                : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+        {
+            return null;
+        }
     }
 
     public string SaveAiCorpusEntry(Project project, Note note, CaptureFragment fragment)

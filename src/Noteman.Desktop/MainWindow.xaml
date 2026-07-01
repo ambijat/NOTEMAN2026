@@ -25,10 +25,19 @@
                     <TextBlock x:Name="WorkspacePathText" TextWrapping="Wrap" Foreground="#57606A" Margin="0,0,0,16" />
 
                     <TextBlock Text="Project" FontWeight="SemiBold" Margin="0,0,0,6" />
-                    <ComboBox x:Name="ProjectChoice" IsEditable="True" Text="Thesis Notes" Margin="0,0,0,8" />
+                    <ComboBox x:Name="ProjectChoice"
+                              IsEditable="True"
+                              Text="Thesis Notes"
+                              SelectionChanged="ProjectChoice_SelectionChanged"
+                              LostFocus="ProjectChoice_LostFocus"
+                              Margin="0,0,0,8" />
 
                     <TextBlock Text="Note" FontWeight="SemiBold" Margin="0,0,0,6" />
-                    <TextBox x:Name="NoteTitleBox" Text="Chapter One" Margin="0,0,0,8" />
+                    <ComboBox x:Name="NoteChoice"
+                              IsEditable="True"
+                              Text="Chapter One"
+                              SelectionChanged="NoteChoice_SelectionChanged"
+                              Margin="0,0,0,8" />
                     <Button Content="New Note" Click="NewNote_Click" Margin="0,0,0,16" />
 
                     <TextBlock Text="Source" FontWeight="SemiBold" Margin="0,0,0,6" />
