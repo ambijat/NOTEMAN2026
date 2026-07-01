@@ -4,6 +4,8 @@ Read this before changing NoteMan Desktop.
 
 NoteMan is not merely a note-taking app. It is a compartmentalized research ethics tool. Its purpose is to help a researcher capture, transform, review, and export material without confusing source text, AI output, and human judgment.
 
+NoteMan should not become an invisible automation pipeline. It may assist extraction, prompting, transformation, and review, but every workflow must preserve state, make transitions visible, and converge on a verifiable research condition: source preserved, locator attached, draft reviewed, and export intentionally accepted.
+
 ## Core Principle
 
 Keep each kind of material in its own compartment:
@@ -49,6 +51,12 @@ The app should make movement between compartments deliberate and visible.
 
 10. Support ethical research habits.
     The app should help avoid plagiarism, accidental unattributed copying, and unreviewed AI prose.
+
+11. Build brakes before automation.
+    Automated actions must have visible boundaries, recoverable state, and user-controlled final acceptance.
+
+12. Keep the researcher as checker.
+    The app may help produce drafts, but it must not grade its own output as final research material.
 
 ## Design Shape
 
