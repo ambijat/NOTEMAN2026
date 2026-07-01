@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.Json;
 using System.Windows;
 using Microsoft.Win32;
 using Noteman.Core.Models;
@@ -8,7 +9,11 @@ namespace Noteman.Desktop;
 
 public partial class MainWindow : Window
 {
+    private const string ConfigFolderName = "noteman-desktop";
+    private const string ConfigFileName = "desktop_app.json";
+
     private string? workspacePath;
+    private string? lastWorkspacePath;
     private Project? currentProject;
     private Note? currentNote;
     private readonly List<PromptTemplate> prompts = [];
@@ -16,6 +21,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        lastWorkspacePath = LoadLastWorkspace();
         LoadPrompts();
     }
 
@@ -23,13 +29,26 @@ public partial class MainWindow : Window
     {
         var dialog = new OpenFolderDialog
         {
-            Title = "Choose NoteMan workspace"
+            Title = "Choose NoteMan workspace",
+            InitialDirectory = WorkspaceDialogInitialDirectory(workspacePath, lastWorkspacePath)
         };
 
         if (dialog.ShowDialog() == true)
         {
             workspacePath = dialog.FolderName;
+            lastWorkspacePath = workspacePath;
             WorkspacePathText.Text = workspacePath;
+            try
+            {
+                SaveLastWorkspace(workspacePath);
+            }
+            catch (Exception ex)
+                when (ex is IOException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+            {
+                StatusText.Text = "Workspace selected. Last workspace preference could not be saved.";
+                return;
+            }
+
             StatusText.Text = "Workspace selected.";
         }
     }
@@ -241,6 +260,84 @@ public partial class MainWindow : Window
             .ReplaceLineEndings(" ")
             .Trim();
 
+    private static string DesktopConfigPath()
+    {
+        var configRoot = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        if (string.IsNullOrWhiteSpace(configRoot))
+        {
+            configRoot = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        }
+
+        return Path.Combine(configRoot, ConfigFolderName, ConfigFileName);
+    }
+
+    private static string? LoadLastWorkspace()
+    {
+        try
+        {
+            var configPath = DesktopConfigPath();
+            if (!File.Exists(configPath))
+            {
+                return null;
+            }
+
+            var preferences = JsonSerializer.Deserialize<DesktopPreferences>(File.ReadAllText(configPath));
+            return string.IsNullOrWhiteSpace(preferences?.LastWorkspace) ? null : preferences.LastWorkspace;
+        }
+        catch (Exception ex)
+            when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException or ArgumentException)
+        {
+            return null;
+        }
+    }
+
+    private static void SaveLastWorkspace(string selectedWorkspace)
+    {
+        var configPath = DesktopConfigPath();
+        Directory.CreateDirectory(Path.GetDirectoryName(configPath)!);
+        var preferences = new DesktopPreferences(Path.GetFullPath(selectedWorkspace));
+        File.WriteAllText(
+            configPath,
+            JsonSerializer.Serialize(preferences, new JsonSerializerOptions { WriteIndented = true }));
+    }
+
+    private static string WorkspaceDialogInitialDirectory(string? currentWorkspace, string? lastWorkspace)
+    {
+        if (!string.IsNullOrWhiteSpace(currentWorkspace) && Directory.Exists(currentWorkspace))
+        {
+            return currentWorkspace;
+        }
+
+        if (!string.IsNullOrWhiteSpace(lastWorkspace))
+        {
+            if (Directory.Exists(lastWorkspace))
+            {
+                return lastWorkspace;
+            }
+
+            var parent = SafeParentDirectory(lastWorkspace);
+            if (parent is not null && parent.Exists)
+            {
+                return parent.FullName;
+            }
+        }
+
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        return string.IsNullOrWhiteSpace(home) ? Environment.CurrentDirectory : home;
+    }
+
+    private static DirectoryInfo? SafeParentDirectory(string path)
+    {
+        try
+        {
+            return Directory.GetParent(path);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+        {
+            return null;
+        }
+    }
+
     private CaptureFragment? LatestFragment() =>
         currentNote is null || currentNote.Fragments.Count == 0
             ? null
@@ -295,4 +392,6 @@ public partial class MainWindow : Window
         """;
 
     private sealed record PromptTemplate(string Title, string Path, string Body);
+
+    private sealed record DesktopPreferences(string LastWorkspace);
 }
