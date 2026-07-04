@@ -38,6 +38,8 @@ The future system should be organized around these concepts:
 - `CaptureFragment`: the atomic unit of research note-making
 - `Asset`: image, screenshot, PDF, audio, or other source material
 - `Extraction`: the method that turns source material into text
+- `PromptTemplate`: a local editable instruction that turns a captured fragment
+  into an AI prompt while preserving source and locator context
 - `Export`: the commit of draft material into durable notes
 - `Review`: search, compare, read, and reuse captured fragments
 
@@ -52,6 +54,7 @@ CaptureFragment cites Source
 CaptureFragment locates Locator
 CaptureFragment may deriveFrom Asset
 Extraction produces CaptureFragment
+PromptTemplate renders CaptureFragment into AI prompt
 Export commits CaptureFragment into Note
 Review queries Note and CaptureFragment
 ```
@@ -74,6 +77,8 @@ Source -> Locator -> Extraction -> Fragment -> Note -> Review
 - External editors are optional; the app must remain able to read its own notes.
 - Workflow state must be durable enough that a session can be resumed without losing the source trail.
 - AI-generated text remains draft material until explicitly reviewed.
+- Prompt groups classify prompt tasks for selection; they do not change source,
+  draft, note, or export state.
 - Export is the convergence point of the workflow, not merely a file write.
 - Automated actions must have visible boundaries, recoverable state, and user-controlled final acceptance.
 - The system must preserve researcher comprehension rather than replacing it with hidden automation.

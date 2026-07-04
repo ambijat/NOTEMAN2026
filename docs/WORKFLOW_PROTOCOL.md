@@ -59,6 +59,20 @@ Workspace -> Project -> Note -> Fragment
 - Loaded AI retrieval text must not be saved or exported again unchanged.
 - Pasting a fresh AI result resets the draft state so it can be saved normally.
 
+## Prompt Workbench
+
+- Prompt templates are local editable `.txt` files.
+- The first non-empty line is the visible prompt title.
+- An optional `Group: <name>` line immediately after the title classifies the
+  prompt for the group radio buttons.
+- The `Group:` line is selection metadata only; it must not be copied into the
+  AI prompt body.
+- Prompts without a group belong to `Research`.
+- The prompt group radio buttons filter the prompt dropdown without changing the
+  current source fragment, note, draft, or export state.
+- Current task groups include `Research` and `Human Writing`. Add a new group
+  only when it names a real cluster of prompts, not as decoration.
+
 ## Export
 
 - `Export Text/AI Note` writes the whole current note to `notes/<note-id>.md`
@@ -89,15 +103,16 @@ changes the canon:
 - `Export Text/AI Note`
 
 Any future feature that changes workspace hierarchy, project selection, note
-selection, source capture, AI draft handling, export, `assets/`, or `ai_corpus/`
-must be implemented in both repositories or recorded with a parity handoff.
+selection, source capture, prompt grouping, AI draft handling, export, `assets/`,
+or `ai_corpus/` must be implemented in both repositories or recorded with a
+parity handoff.
 
 ## Validation Before Commit
 
 For `noteman-wcs`:
 
 ```bash
-python3 -m py_compile src/noteman_wcs/desktop_app.py src/noteman_wcs/storage.py
+python3 -m py_compile src/noteman_wcs/desktop_app.py src/noteman_wcs/prompts.py src/noteman_wcs/storage.py
 PYTHONPATH=src python3 -m unittest discover -s tests
 ```
 
