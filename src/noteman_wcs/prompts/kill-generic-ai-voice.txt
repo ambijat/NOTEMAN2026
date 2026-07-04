@@ -1,0 +1,24 @@
+Kill The Generic AI Voice
+Group: Human Writing
+
+Task:
+Analyze the captured text and remove the generic AI voice.
+
+Work goal:
+Replace generic sentences with more original, specific, and perspective-rich writing, then provide a fully rewritten version.
+
+Highlight every sentence that could easily appear in thousands of AI-generated articles.
+
+For each sentence:
+1. Explain why it feels generic.
+2. Rewrite it with a more original observation.
+3. Increase specificity.
+4. Add a clearer perspective.
+
+Then provide a fully rewritten version that sounds distinctive and memorable.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

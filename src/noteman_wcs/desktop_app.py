@@ -163,17 +163,32 @@ class NoteManDesktopApp(tk.Tk):
         prompt_controls.grid(row=2, column=0, sticky="ew", pady=(12, 8))
         prompt_controls.columnconfigure(0, weight=1)
         prompt_controls.columnconfigure(1, weight=1)
-        self.prompt_titles = [prompt.title for prompt in self.prompts]
-        self.prompt_var = tk.StringVar(value=self.prompt_titles[0] if self.prompt_titles else "")
-        ttk.Combobox(prompt_controls, textvariable=self.prompt_var, values=self.prompt_titles, state="readonly").grid(
-            row=0, column=0, columnspan=2, sticky="ew", pady=(0, 6)
+        self.prompt_groups = self._prompt_group_names()
+        self.prompt_group_var = tk.StringVar(value=self.prompt_groups[0] if self.prompt_groups else "")
+        group_frame = ttk.Frame(prompt_controls)
+        group_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 6))
+        for column, group in enumerate(self.prompt_groups):
+            group_frame.columnconfigure(column, weight=1)
+            ttk.Radiobutton(
+                group_frame,
+                text=group,
+                value=group,
+                variable=self.prompt_group_var,
+                command=self._refresh_prompt_choices,
+            ).grid(row=0, column=column, sticky="w")
+
+        self.prompt_var = tk.StringVar()
+        self.prompt_choice = ttk.Combobox(prompt_controls, textvariable=self.prompt_var, state="readonly")
+        self.prompt_choice.grid(
+            row=1, column=0, columnspan=2, sticky="ew", pady=(0, 6)
         )
         ttk.Button(prompt_controls, text="Copy Prompt", command=self.copy_prompt).grid(
-            row=1, column=0, sticky="ew", padx=(0, 4)
+            row=2, column=0, sticky="ew", padx=(0, 4)
         )
         ttk.Button(prompt_controls, text="Paste AI Result", command=self.paste_ai_result).grid(
-            row=1, column=1, sticky="ew", padx=(4, 0)
+            row=2, column=1, sticky="ew", padx=(4, 0)
         )
+        self._refresh_prompt_choices()
 
         workbench = ttk.Frame(right)
         workbench.grid(row=3, column=0, sticky="nsew")
@@ -373,7 +388,27 @@ class NoteManDesktopApp(tk.Tk):
 
     def _selected_prompt(self) -> PromptTemplate:
         selected = self.prompt_var.get()
-        return next((prompt for prompt in self.prompts if prompt.title == selected), self.prompts[0])
+        return next(
+            (prompt for prompt in self._prompts_in_selected_group() if prompt.title == selected),
+            self._prompts_in_selected_group()[0],
+        )
+
+    def _prompt_group_names(self) -> list[str]:
+        groups = sorted({prompt.group for prompt in self.prompts})
+        if "Research" in groups:
+            groups.remove("Research")
+            groups.insert(0, "Research")
+        return groups
+
+    def _prompts_in_selected_group(self) -> list[PromptTemplate]:
+        group = self.prompt_group_var.get()
+        grouped = [prompt for prompt in self.prompts if prompt.group == group]
+        return grouped or self.prompts
+
+    def _refresh_prompt_choices(self) -> None:
+        prompt_titles = [prompt.title for prompt in self._prompts_in_selected_group()]
+        self.prompt_choice.configure(values=prompt_titles)
+        self.prompt_var.set(prompt_titles[0] if prompt_titles else "")
 
     def _update_preview(self) -> None:
         content = "" if self.current_note is None else self._render_note_by_ai_method(include_ai=False)
