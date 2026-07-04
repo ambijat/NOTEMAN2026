@@ -45,6 +45,8 @@ The app should make movement between compartments deliberate and visible.
 
 8. Keep prompts local and editable.
    Prompt templates should remain plain text files where possible.
+   Prompt groups may classify tasks for selection, but they must not become
+   hidden instructions or replace the visible prompt body.
 
 9. Avoid vendor lock-in.
    The app should work with ChatGPT, Claude, Ollama, or any other tool that accepts clipboard text.
