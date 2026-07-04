@@ -1,0 +1,21 @@
+Replace Explanation With Insight
+Group: Human Writing
+
+Task:
+Review the captured text and replace obvious explanation with meaningful insight.
+
+Work goal:
+Produce a tighter version where each paragraph reveals, challenges, questions, compares, or reframes.
+
+For every paragraph, ask:
+Is this explaining something obvious, or offering a meaningful insight?
+
+Remove content that merely explains. Keep content that reveals, challenges, questions, compares, or reframes.
+
+The final version should contain fewer explanations and more insights. Readers should finish the piece feeling they learned something they did not already know.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

@@ -90,19 +90,25 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="PromptGroupPanel"
+                                Grid.ColumnSpan="2"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,6" />
                     <ComboBox x:Name="PromptChoice"
+                              Grid.Row="1"
                               Grid.ColumnSpan="2"
                               DisplayMemberPath="Title"
                               SelectedValuePath="Path"
                               SelectedIndex="0"
                               Margin="0,0,0,6" />
-                    <Button Grid.Row="1" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="0,0,4,0" />
-                    <Button Grid.Row="1" Grid.Column="1" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="4,0,0,0" />
+                    <Button Grid.Row="2" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="0,0,4,0" />
+                    <Button Grid.Row="2" Grid.Column="1" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="4,0,0,0" />
                 </Grid>
                 <Grid Grid.Row="3">
                     <Grid.RowDefinitions>

@@ -20,6 +20,7 @@ public partial class MainWindow : Window
     private Dictionary<string, string> noteChoiceIndex = [];
     private bool draftLoadedFromNote;
     private readonly List<PromptTemplate> prompts = [];
+    private string selectedPromptGroup = "Research";
 
     public MainWindow()
     {
@@ -509,27 +510,100 @@ public partial class MainWindow : Window
         var promptDirectory = Path.Combine(AppContext.BaseDirectory, "prompts");
         if (!Directory.Exists(promptDirectory))
         {
-            prompts.Add(new PromptTemplate("Basic Research Note", "", DefaultPrompt()));
+            prompts.Add(new PromptTemplate("Basic Research Note", "", DefaultPrompt(), "Research"));
         }
         else
         {
             foreach (var path in Directory.GetFiles(promptDirectory, "*.txt").OrderBy(Path.GetFileName))
             {
-                var content = File.ReadAllText(path).Trim();
-                var title = content.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim()
-                    ?? Path.GetFileNameWithoutExtension(path);
-                prompts.Add(new PromptTemplate(title, path, content));
+                prompts.Add(ReadPrompt(path));
             }
         }
 
-        PromptChoice.ItemsSource = prompts;
-        PromptChoice.SelectedIndex = prompts.Count > 0 ? 0 : -1;
+        RefreshPromptGroups();
+        RefreshPromptChoices();
     }
 
     private PromptTemplate SelectedPrompt() =>
         PromptChoice.SelectedItem as PromptTemplate
         ?? prompts.FirstOrDefault()
-        ?? new PromptTemplate("Basic Research Note", "", DefaultPrompt());
+        ?? new PromptTemplate("Basic Research Note", "", DefaultPrompt(), "Research");
+
+    private static PromptTemplate ReadPrompt(string path)
+    {
+        var content = File.ReadAllText(path).Trim();
+        var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+        var titleIndex = Array.FindIndex(lines, line => line.Trim().Length > 0);
+        if (titleIndex < 0)
+        {
+            return new PromptTemplate(Path.GetFileNameWithoutExtension(path), path, content, "Research");
+        }
+
+        var title = lines[titleIndex].Trim();
+        var group = "Research";
+        var bodyLines = lines.ToList();
+        for (var index = titleIndex + 1; index < lines.Length; index++)
+        {
+            var line = lines[index].Trim();
+            if (line.Length == 0)
+            {
+                continue;
+            }
+
+            if (line.StartsWith("Group:", StringComparison.OrdinalIgnoreCase))
+            {
+                group = line.Substring("Group:".Length).Trim();
+                if (group.Length == 0)
+                {
+                    group = "Research";
+                }
+                bodyLines.RemoveAt(index);
+            }
+            break;
+        }
+
+        return new PromptTemplate(title, path, string.Join(Environment.NewLine, bodyLines).Trim(), group);
+    }
+
+    private void RefreshPromptGroups()
+    {
+        PromptGroupPanel.Children.Clear();
+        var groups = prompts.Select(prompt => prompt.Group).Distinct().OrderBy(group => group).ToList();
+        if (groups.Remove("Research"))
+        {
+            groups.Insert(0, "Research");
+        }
+        selectedPromptGroup = groups.FirstOrDefault() ?? "Research";
+
+        foreach (var group in groups)
+        {
+            var button = new RadioButton
+            {
+                Content = group,
+                GroupName = "PromptGroups",
+                IsChecked = group == selectedPromptGroup,
+                Margin = new Thickness(0, 0, 12, 0)
+            };
+            button.Checked += PromptGroup_Checked;
+            PromptGroupPanel.Children.Add(button);
+        }
+    }
+
+    private void PromptGroup_Checked(object sender, RoutedEventArgs e)
+    {
+        if (sender is RadioButton button && button.Content is string group)
+        {
+            selectedPromptGroup = group;
+            RefreshPromptChoices();
+        }
+    }
+
+    private void RefreshPromptChoices()
+    {
+        var groupedPrompts = prompts.Where(prompt => prompt.Group == selectedPromptGroup).ToList();
+        PromptChoice.ItemsSource = groupedPrompts.Count > 0 ? groupedPrompts : prompts;
+        PromptChoice.SelectedIndex = PromptChoice.Items.Count > 0 ? 0 : -1;
+    }
 
     private static string BuildPrompt(PromptTemplate prompt, CaptureFragment fragment) =>
         prompt.Body
@@ -551,7 +625,7 @@ public partial class MainWindow : Window
         Summarize this into a concise source-aware research note.
         """;
 
-    private sealed record PromptTemplate(string Title, string Path, string Body);
+    private sealed record PromptTemplate(string Title, string Path, string Body, string Group);
 
     private sealed record DesktopPreferences(string LastWorkspace);
 }
