@@ -2,6 +2,9 @@
 
 noteman-wcs is the new home for NoteMan as a Workspace Capture System.
 
+It is the **Python/Linux reference implementation and shared behavioral
+contract**. The authoritative Windows product lives in `noteman-desktop`.
+
 The old NoteMan programs proved the core workflow: select a folder, create a note, paste or OCR material, attach a reference/page marker, export it, and later review it. This repository rethinks that idea as a research-note architecture built around referenced fragments rather than plain text files alone.
 
 Before changing this repository, read `docs/CODING_TESTAMENT.md`. It records the research-ethics and compartmentalization principles that guide the project.
@@ -52,7 +55,8 @@ The proposed future ecosystem is:
 - `NOTEMAN-OCR`: future OCR/extraction adapters
 - `NOTEMAN-RESEARCH-KIT`: future templates, workflows, and documentation for research students
 
-Only the first two repositories exist today. The new repositories should be created when there is enough implementation to justify them.
+The first three repositories exist today. OCR and research-kit repositories
+should be created only when enough implementation exists to justify them.
 
 ## Development
 
