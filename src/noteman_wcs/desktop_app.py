@@ -300,15 +300,32 @@ class NoteManDesktopApp(tk.Tk):
         self._set_status(f"Removed last capture from {last.citation_heading()}.")
 
     def copy_prompt(self) -> None:
+        if self.workspace_path is None:
+            messagebox.showinfo("NoteMan", "Choose a workspace before copying a prompt.")
+            return
         fragment = self._latest_fragment()
-        if fragment is None:
+        if fragment is None or self.current_project is None or self.current_note is None:
             self._set_status("Capture text first, then copy a prompt.")
             return
-        prompt = render_prompt(self._selected_prompt(), fragment)
-        self._replace_text(self.prompt_box, prompt, disabled=True)
+        selected_prompt = self._selected_prompt()
+        rendered_prompt = render_prompt(selected_prompt, fragment)
+        try:
+            FileProjectRepository(self.workspace_path).save_prompt_use(
+                self.current_project,
+                self.current_note,
+                fragment,
+                selected_prompt.title,
+                "user" if selected_prompt.group == "User" else "built_in",
+                selected_prompt.body,
+                rendered_prompt,
+            )
+        except (OSError, ValueError) as exc:
+            messagebox.showerror("NoteMan", f"The prompt could not be logged and was not copied: {exc}")
+            return
+        self._replace_text(self.prompt_box, rendered_prompt, disabled=True)
         self.clipboard_clear()
-        self.clipboard_append(prompt)
-        self._set_status(f"Copied {self._selected_prompt().title} prompt for {fragment.citation_heading()}.")
+        self.clipboard_append(rendered_prompt)
+        self._set_status(f"Copied and logged {selected_prompt.title} prompt for {fragment.citation_heading()}.")
 
     def paste_ai_result(self) -> None:
         try:

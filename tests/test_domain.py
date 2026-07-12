@@ -1,5 +1,6 @@
 import tempfile
 import json
+import hashlib
 import unittest
 from pathlib import Path
 
@@ -51,6 +52,36 @@ class DomainTests(unittest.TestCase):
             self.assertTrue((project_path / "assets").is_dir())
             self.assertTrue((project_path / "ai_corpus").is_dir())
             self.assertTrue((project_path / "notes").is_dir())
+            self.assertTrue((project_path / "prompts" / "snapshots").is_dir())
+
+    def test_prompt_use_saves_exact_snapshot_and_jsonl_provenance(self):
+        project = Project("Thesis Notes")
+        note = Note("Chapter One")
+        fragment = CaptureFragment(
+            text="Exact source passage.",
+            source=Source("Research Book", SourceType.BOOK),
+            locator=Locator("12", LocatorKind.PAGE),
+        )
+        note.add_fragment(fragment)
+        template = "Summarize {fragment_text}"
+        rendered = "Summarize Exact source passage."
+
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = FileProjectRepository(Path(tmp))
+            snapshot_path = repo.save_prompt_use(
+                project, note, fragment, "Summary", "built_in", template, rendered
+            )
+            entry = json.loads(
+                (snapshot_path.parent.parent / "usage.jsonl").read_text(encoding="utf-8").strip()
+            )
+
+            self.assertEqual(rendered, snapshot_path.read_text(encoding="utf-8"))
+            self.assertEqual("built_in", entry["template_origin"])
+            self.assertEqual(note.id, entry["note_id"])
+            self.assertEqual(fragment.id, entry["fragment_id"])
+            self.assertEqual("snapshots/" + snapshot_path.name, entry["snapshot"])
+            self.assertEqual(hashlib.sha256(template.encode()).hexdigest(), entry["template_sha256"])
+            self.assertEqual(hashlib.sha256(rendered.encode()).hexdigest(), entry["rendered_sha256"])
 
     def test_project_names_list_only_project_folders(self):
         with tempfile.TemporaryDirectory() as tmp:

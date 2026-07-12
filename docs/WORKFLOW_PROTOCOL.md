@@ -78,6 +78,9 @@ Workspace -> Project -> Note -> Fragment
   directory, not in the bundled prompt directory or research workspace.
 - `Remove User Prompt` removes user-defined prompts but must not delete bundled
   prompts.
+- Every successful `Copy Prompt` writes the exact rendered clipboard text to
+  the current project's `prompts/snapshots/` directory and appends its
+  provenance to `prompts/usage.jsonl`. If logging fails, copying must fail too.
 
 ## Export
 
