@@ -10,6 +10,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <PublishDir>$(MSBuildProjectDirectory)\..\..\dist\standalone\</PublishDir>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Noteman.Core\Noteman.Core.csproj" />

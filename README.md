@@ -2,6 +2,9 @@
 
 Windows desktop implementation of NoteMan as a source-aware Workspace Capture System.
 
+This is the **authoritative Windows product**. `noteman-wcs` is its
+cross-platform behavioral reference; `NOTEMAN` is a historical archive.
+
 This repository is the C# companion to `noteman-wcs`. The two implementations may have different interfaces, but they should read and write the same workspace format.
 
 When Windows work follows a completed Python session, begin from a platform parity handoff. The goal is not identical source code; it is identical research behavior across OS and language boundaries.
@@ -49,7 +52,6 @@ so the target computer does not need a separate .NET installation:
 dotnet publish src\Noteman.Desktop\Noteman.Desktop.csproj --configuration Release
 ```
 
-Run the standalone executable from
-`src\Noteman.Desktop\bin\Release\net8.0-windows\win-x64\publish\Noteman.Desktop.exe`.
+Run the standalone executable from `dist\standalone\Noteman.Desktop.exe`.
 
 The current machine used to scaffold this repo did not have `dotnet` installed, so the initial project was created by hand and not compiled locally.
