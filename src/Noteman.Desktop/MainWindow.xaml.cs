@@ -190,6 +190,86 @@ public partial class MainWindow : Window
         StatusText.Text = "Pasted AI result into Typed / AI Draft. Review it before saving.";
     }
 
+    private void AddPrompt_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new PromptEditorDialog { Owner = this };
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        if (prompts.Any(prompt => string.Equals(prompt.Title, dialog.PromptTitle, StringComparison.OrdinalIgnoreCase)))
+        {
+            MessageBox.Show("A prompt with that name already exists.", "NoteMan");
+            return;
+        }
+
+        var content = $"{dialog.PromptTitle}{Environment.NewLine}Group: User{Environment.NewLine}{Environment.NewLine}{dialog.PromptBody}";
+        PromptTemplate prompt;
+        if (dialog.KeepAfterClosing)
+        {
+            try
+            {
+                var directory = UserPromptDirectory();
+                Directory.CreateDirectory(directory);
+                var path = UniquePromptPath(directory, dialog.PromptTitle);
+                File.WriteAllText(path, content);
+                prompt = ReadPrompt(path);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+            {
+                MessageBox.Show($"The prompt could not be saved: {ex.Message}", "NoteMan");
+                return;
+            }
+        }
+        else
+        {
+            prompt = ReadPromptContent(content, "");
+        }
+
+        prompts.Add(prompt);
+        RefreshPromptGroups("User");
+        RefreshPromptChoices(prompt.Title);
+        StatusText.Text = dialog.KeepAfterClosing
+            ? $"Added user prompt '{prompt.Title}'."
+            : $"Added temporary prompt '{prompt.Title}' for this session.";
+    }
+
+    private void RemovePrompt_Click(object sender, RoutedEventArgs e)
+    {
+        var prompt = SelectedPrompt();
+        if (prompt.Group != "User")
+        {
+            StatusText.Text = "Only user-defined prompts can be removed here.";
+            return;
+        }
+
+        var answer = MessageBox.Show($"Remove the user prompt '{prompt.Title}'?", "NoteMan",
+            MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (answer != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        try
+        {
+            if (prompt.Path.Length > 0 && File.Exists(prompt.Path))
+            {
+                File.Delete(prompt.Path);
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+        {
+            MessageBox.Show($"The prompt could not be removed: {ex.Message}", "NoteMan");
+            return;
+        }
+
+        prompts.Remove(prompt);
+        RefreshPromptGroups();
+        RefreshPromptChoices();
+        StatusText.Text = $"Removed user prompt '{prompt.Title}'.";
+    }
+
     private void SaveDraftAsFragment_Click(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(DraftBox.Text))
@@ -520,6 +600,15 @@ public partial class MainWindow : Window
             }
         }
 
+        var userPromptDirectory = UserPromptDirectory();
+        if (Directory.Exists(userPromptDirectory))
+        {
+            foreach (var path in Directory.GetFiles(userPromptDirectory, "*.txt").OrderBy(Path.GetFileName))
+            {
+                prompts.Add(ReadPrompt(path));
+            }
+        }
+
         RefreshPromptGroups();
         RefreshPromptChoices();
     }
@@ -529,9 +618,11 @@ public partial class MainWindow : Window
         ?? prompts.FirstOrDefault()
         ?? new PromptTemplate("Basic Research Note", "", DefaultPrompt(), "Research");
 
-    private static PromptTemplate ReadPrompt(string path)
+    private static PromptTemplate ReadPrompt(string path) => ReadPromptContent(File.ReadAllText(path), path);
+
+    private static PromptTemplate ReadPromptContent(string content, string path)
     {
-        var content = File.ReadAllText(path).Trim();
+        content = content.Trim();
         var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         var titleIndex = Array.FindIndex(lines, line => line.Trim().Length > 0);
         if (titleIndex < 0)
@@ -565,7 +656,7 @@ public partial class MainWindow : Window
         return new PromptTemplate(title, path, string.Join(Environment.NewLine, bodyLines).Trim(), group);
     }
 
-    private void RefreshPromptGroups()
+    private void RefreshPromptGroups(string? preferredGroup = null)
     {
         PromptGroupPanel.Children.Clear();
         var groups = prompts.Select(prompt => prompt.Group).Distinct().OrderBy(group => group).ToList();
@@ -573,7 +664,9 @@ public partial class MainWindow : Window
         {
             groups.Insert(0, "Research");
         }
-        selectedPromptGroup = groups.FirstOrDefault() ?? "Research";
+        selectedPromptGroup = preferredGroup is not null && groups.Contains(preferredGroup)
+            ? preferredGroup
+            : groups.FirstOrDefault() ?? "Research";
 
         foreach (var group in groups)
         {
@@ -598,11 +691,36 @@ public partial class MainWindow : Window
         }
     }
 
-    private void RefreshPromptChoices()
+    private void RefreshPromptChoices(string? preferredTitle = null)
     {
         var groupedPrompts = prompts.Where(prompt => prompt.Group == selectedPromptGroup).ToList();
         PromptChoice.ItemsSource = groupedPrompts.Count > 0 ? groupedPrompts : prompts;
         PromptChoice.SelectedIndex = PromptChoice.Items.Count > 0 ? 0 : -1;
+        if (preferredTitle is not null)
+        {
+            PromptChoice.SelectedItem = PromptChoice.Items.Cast<PromptTemplate>()
+                .FirstOrDefault(prompt => prompt.Title == preferredTitle);
+        }
+    }
+
+    private static string UserPromptDirectory() =>
+        Path.Combine(Path.GetDirectoryName(DesktopConfigPath())!, "prompts");
+
+    private static string UniquePromptPath(string directory, string title)
+    {
+        var invalid = Path.GetInvalidFileNameChars();
+        var stem = new string(title.Select(character => invalid.Contains(character) ? '-' : character).ToArray()).Trim();
+        if (stem.Length == 0)
+        {
+            stem = "user-prompt";
+        }
+
+        var path = Path.Combine(directory, $"{stem}.txt");
+        for (var suffix = 2; File.Exists(path); suffix++)
+        {
+            path = Path.Combine(directory, $"{stem}-{suffix}.txt");
+        }
+        return path;
     }
 
     private static string BuildPrompt(PromptTemplate prompt, CaptureFragment fragment) =>

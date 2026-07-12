@@ -40,4 +40,16 @@ dotnet build src\Noteman.Desktop\Noteman.Desktop.csproj
 dotnet run --project src\Noteman.Desktop\Noteman.Desktop.csproj
 ```
 
+## Standalone Windows App
+
+Release publishing defaults to a self-contained, single-file Windows x64 app,
+so the target computer does not need a separate .NET installation:
+
+```powershell
+dotnet publish src\Noteman.Desktop\Noteman.Desktop.csproj --configuration Release
+```
+
+Run the standalone executable from
+`src\Noteman.Desktop\bin\Release\net8.0-windows\win-x64\publish\Noteman.Desktop.exe`.
+
 The current machine used to scaffold this repo did not have `dotnet` installed, so the initial project was created by hand and not compiled locally.
