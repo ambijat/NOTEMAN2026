@@ -10,6 +10,10 @@ Workspace/
     ai_corpus/
       note-id-fragment-id.md
       note-id-fragment-id.json
+    prompts/
+      usage.jsonl
+      snapshots/
+        prompt-use-id.txt
     notes/
       note-id.md
       note-id.json
@@ -40,6 +44,19 @@ The JSON sidecar stores:
 PDF pages, clipboard images, and other files that produced fragments.
 
 Text-only capture and AI draft workflows may leave this folder empty.
+
+## Prompt-use provenance
+
+`prompts/` records every successful **Copy Prompt** action for the project,
+whether the selected template is built in or user-created.
+
+`snapshots/` contains the exact rendered prompt placed on the clipboard. These
+immutable snapshots include the captured source text as it appeared at the time
+of use. `usage.jsonl` contains one metadata object per line linking a snapshot
+to its template origin and hashes, project, note, fragment, source, locator, and
+UTC timestamp. Editing or deleting a template never changes an earlier snapshot.
+
+If the provenance record cannot be written, NoteMan does not copy the prompt.
 
 ## AI Corpus
 

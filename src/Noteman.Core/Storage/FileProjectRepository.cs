@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Security.Cryptography;
 using Noteman.Core.Models;
 
 namespace Noteman.Core.Storage;
@@ -14,6 +15,11 @@ public sealed class FileProjectRepository
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         WriteIndented = true
     };
+    private readonly JsonSerializerOptions jsonLinesOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+        WriteIndented = false
+    };
 
     public FileProjectRepository(string workspace)
     {
@@ -27,8 +33,55 @@ public sealed class FileProjectRepository
         Directory.CreateDirectory(Path.Combine(projectPath, "assets"));
         Directory.CreateDirectory(Path.Combine(projectPath, "ai_corpus"));
         Directory.CreateDirectory(Path.Combine(projectPath, "notes"));
+        Directory.CreateDirectory(Path.Combine(projectPath, "prompts", "snapshots"));
         WriteJson(Path.Combine(projectPath, "project.json"), project);
         return projectPath;
+    }
+
+    public string SavePromptUse(
+        Project project,
+        Note note,
+        CaptureFragment fragment,
+        string templateTitle,
+        string templateOrigin,
+        string templateText,
+        string renderedPrompt)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateTitle);
+        ArgumentException.ThrowIfNullOrWhiteSpace(templateOrigin);
+        ArgumentException.ThrowIfNullOrWhiteSpace(renderedPrompt);
+
+        var projectPath = CreateProject(project);
+        var promptsPath = Path.Combine(projectPath, "prompts");
+        var snapshotsPath = Path.Combine(promptsPath, "snapshots");
+        var usedAt = DateTimeOffset.UtcNow;
+        var id = $"prompt-use-{usedAt:yyyyMMddTHHmmssfffZ}-{Guid.NewGuid():N}";
+        var snapshotName = $"{id}.txt";
+        var snapshotPath = Path.Combine(snapshotsPath, snapshotName);
+        var relativeSnapshotPath = $"snapshots/{snapshotName}";
+
+        File.WriteAllText(snapshotPath, renderedPrompt, new UTF8Encoding(false));
+
+        var entry = new PromptUseEntry(
+            id,
+            usedAt.ToString("O"),
+            templateTitle,
+            templateOrigin,
+            Sha256(templateText),
+            Sha256(renderedPrompt),
+            project.Id,
+            project.Name,
+            note.Id,
+            note.Title,
+            fragment.Id,
+            fragment.Source.Label,
+            fragment.Locator.Kind,
+            fragment.Locator.Value,
+            relativeSnapshotPath);
+
+        var json = JsonSerializer.Serialize(entry, jsonLinesOptions);
+        File.AppendAllText(Path.Combine(promptsPath, "usage.jsonl"), json + Environment.NewLine, new UTF8Encoding(false));
+        return snapshotPath;
     }
 
     public string SaveNote(Project project, Note note)
@@ -186,6 +239,26 @@ public sealed class FileProjectRepository
     {
         File.WriteAllText(path, JsonSerializer.Serialize(value, jsonOptions), Encoding.UTF8);
     }
+
+    private static string Sha256(string value) =>
+        Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
+
+    private sealed record PromptUseEntry(
+        string Id,
+        string UsedAt,
+        string TemplateTitle,
+        string TemplateOrigin,
+        string TemplateSha256,
+        string RenderedSha256,
+        string ProjectId,
+        string ProjectName,
+        string NoteId,
+        string NoteTitle,
+        string FragmentId,
+        string Source,
+        string LocatorKind,
+        string LocatorValue,
+        string Snapshot);
 
     private sealed record AiCorpusEntry(
         string Id,

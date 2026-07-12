@@ -164,17 +164,40 @@ public partial class MainWindow : Window
 
     private void CopyPrompt_Click(object sender, RoutedEventArgs e)
     {
+        if (!EnsureWorkspace())
+        {
+            return;
+        }
+
         var fragment = LatestFragment();
-        if (fragment is null)
+        if (fragment is null || currentProject is null || currentNote is null)
         {
             StatusText.Text = "Capture text first, then copy a prompt.";
             return;
         }
 
-        var prompt = BuildPrompt(SelectedPrompt(), fragment);
-        PromptBox.Text = prompt;
-        Clipboard.SetText(prompt);
-        StatusText.Text = $"Copied {SelectedPrompt().Title} prompt for {fragment.CitationHeading()}.";
+        var selectedPrompt = SelectedPrompt();
+        var renderedPrompt = BuildPrompt(selectedPrompt, fragment);
+        try
+        {
+            var repository = new FileProjectRepository(workspacePath!);
+            repository.SavePromptUse(
+                currentProject,
+                currentNote,
+                fragment,
+                selectedPrompt.Title,
+                selectedPrompt.Group == "User" ? "user" : "built_in",
+                selectedPrompt.Body,
+                renderedPrompt);
+            PromptBox.Text = renderedPrompt;
+            Clipboard.SetText(renderedPrompt);
+            StatusText.Text = $"Copied and logged {selectedPrompt.Title} prompt for {fragment.CitationHeading()}.";
+        }
+        catch (Exception ex)
+            when (ex is IOException or UnauthorizedAccessException or NotSupportedException or ArgumentException)
+        {
+            MessageBox.Show($"The prompt could not be logged and was not copied: {ex.Message}", "NoteMan");
+        }
     }
 
     private void PasteAiResult_Click(object sender, RoutedEventArgs e)
