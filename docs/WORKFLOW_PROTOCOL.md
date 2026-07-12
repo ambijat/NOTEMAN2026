@@ -72,6 +72,12 @@ Workspace -> Project -> Note -> Fragment
   current source fragment, note, draft, or export state.
 - Current task groups include `Research` and `Human Writing`. Add a new group
   only when it names a real cluster of prompts, not as decoration.
+- `Add Prompt` creates a prompt in the visible `User` group. The user chooses
+  whether it lasts only for the current session or is kept after closing.
+- Persistent user prompts are stored in the user's NoteMan configuration
+  directory, not in the bundled prompt directory or research workspace.
+- `Remove User Prompt` removes user-defined prompts but must not delete bundled
+  prompts.
 
 ## Export
 

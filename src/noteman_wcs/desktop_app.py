@@ -31,6 +31,10 @@ def desktop_config_path() -> Path:
     return config_root / "noteman-wcs" / CONFIG_FILE_NAME
 
 
+def user_prompt_directory() -> Path:
+    return desktop_config_path().parent / "prompts"
+
+
 def load_last_workspace(config_path: Path | None = None) -> Path | None:
     path = config_path or desktop_config_path()
     try:
@@ -79,8 +83,8 @@ class NoteManDesktopApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.title("NoteMan Desktop")
-        self.geometry("1120x720")
-        self.minsize(900, 580)
+        self.geometry("980x640")
+        self.minsize(760, 500)
 
         self.workspace_path: Path | None = None
         self.last_workspace_path: Path | None = load_last_workspace()
@@ -89,6 +93,7 @@ class NoteManDesktopApp(tk.Tk):
         self.note_choice_index: dict[str, str] = {}
         self.draft_loaded_from_note = False
         self.prompts = load_prompt_templates()
+        self.prompts.extend(load_prompt_templates(user_prompt_directory()))
 
         self._build_ui()
         self._set_status("Select a workspace to begin.")
@@ -96,12 +101,12 @@ class NoteManDesktopApp(tk.Tk):
     def _build_ui(self) -> None:
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=9)
-        self.columnconfigure(2, weight=11)
+        self.columnconfigure(2, weight=9)
         self.rowconfigure(0, weight=1)
 
-        left = ttk.Frame(self, padding=10)
+        left = ttk.Frame(self, padding=(16, 8))
         left.grid(row=0, column=0, sticky="nsew")
-        left.columnconfigure(0, minsize=240)
+        left.columnconfigure(0, minsize=210)
 
         ttk.Label(left, text="Workspace", font=("", 10, "bold")).grid(sticky="w", pady=(0, 6))
         ttk.Button(left, text="Choose Workspace", command=self.choose_workspace).grid(sticky="ew", pady=(0, 8))
@@ -140,7 +145,11 @@ class NoteManDesktopApp(tk.Tk):
         ttk.Button(left, text="Clipboard OCR (soon)", command=self.clipboard_ocr).grid(sticky="ew", pady=(0, 8))
         ttk.Button(left, text="Undo Last Capture", command=self.undo_last_capture).grid(sticky="ew", pady=(0, 8))
         ttk.Button(left, text="Export Text/AI Note", command=self.export_note).grid(sticky="ew", pady=(0, 8))
-        ttk.Button(left, text="Clear Typed Draft", command=self.clear_typed_draft).grid(sticky="ew")
+        ttk.Button(left, text="Clear Typed Draft", command=self.clear_typed_draft).grid(sticky="ew", pady=(0, 14))
+        ttk.Separator(left).grid(sticky="ew", pady=(0, 10))
+        ttk.Label(left, text="Prompt Library", font=("", 10, "bold")).grid(sticky="w", pady=(0, 6))
+        ttk.Button(left, text="Add Prompt", command=self.add_prompt).grid(sticky="ew", pady=(0, 6))
+        ttk.Button(left, text="Remove User Prompt", command=self.remove_prompt).grid(sticky="ew")
 
         middle = ttk.Frame(self, padding=(0, 10, 10, 10))
         middle.grid(row=0, column=1, sticky="nsew")
@@ -153,7 +162,7 @@ class NoteManDesktopApp(tk.Tk):
         right = ttk.Frame(self, padding=(0, 10, 10, 10))
         right.grid(row=0, column=2, sticky="nsew")
         right.rowconfigure(1, weight=1)
-        right.rowconfigure(3, minsize=240, weight=0)
+        right.rowconfigure(3, minsize=180, weight=0)
         right.columnconfigure(0, weight=1)
         ttk.Label(right, text="Caputre Text Preview", font=("", 10, "bold")).grid(sticky="w", pady=(0, 6))
         preview_frame, self.preview = self._scrolled_text(right, wrap="word", state="disabled")
@@ -165,17 +174,9 @@ class NoteManDesktopApp(tk.Tk):
         prompt_controls.columnconfigure(1, weight=1)
         self.prompt_groups = self._prompt_group_names()
         self.prompt_group_var = tk.StringVar(value=self.prompt_groups[0] if self.prompt_groups else "")
-        group_frame = ttk.Frame(prompt_controls)
-        group_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 6))
-        for column, group in enumerate(self.prompt_groups):
-            group_frame.columnconfigure(column, weight=1)
-            ttk.Radiobutton(
-                group_frame,
-                text=group,
-                value=group,
-                variable=self.prompt_group_var,
-                command=self._refresh_prompt_choices,
-            ).grid(row=0, column=column, sticky="w")
+        self.prompt_group_frame = ttk.Frame(prompt_controls)
+        self.prompt_group_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 6))
+        self._refresh_prompt_groups()
 
         self.prompt_var = tk.StringVar()
         self.prompt_choice = ttk.Combobox(prompt_controls, textvariable=self.prompt_var, state="readonly")
@@ -319,6 +320,102 @@ class NoteManDesktopApp(tk.Tk):
         self.draft_loaded_from_note = False
         self._set_status("Pasted AI result into Typed / AI Draft. Review it before saving.")
 
+    def add_prompt(self) -> None:
+        result = self._prompt_editor_dialog()
+        if result is None:
+            return
+        title, prompt_text, keep_after_closing = result
+        if any(prompt.title.casefold() == title.casefold() for prompt in self.prompts):
+            messagebox.showinfo("NoteMan", "A prompt with that name already exists.")
+            return
+
+        body = f"{title}\n\n{prompt_text}"
+        path = ""
+        if keep_after_closing:
+            try:
+                directory = user_prompt_directory()
+                directory.mkdir(parents=True, exist_ok=True)
+                prompt_path = self._unique_prompt_path(directory, title)
+                prompt_path.write_text(f"{title}\nGroup: User\n\n{prompt_text}\n", encoding="utf-8")
+                path = str(prompt_path)
+            except OSError as exc:
+                messagebox.showerror("NoteMan", f"The prompt could not be saved: {exc}")
+                return
+
+        prompt = PromptTemplate(title=title, body=body, path=path, group="User")
+        self.prompts.append(prompt)
+        self._refresh_prompt_groups("User")
+        self._refresh_prompt_choices(title)
+        status_kind = "user" if keep_after_closing else "temporary"
+        self._set_status(f"Added {status_kind} prompt '{title}'.")
+
+    def remove_prompt(self) -> None:
+        prompt = self._selected_prompt()
+        if prompt.group != "User":
+            self._set_status("Only user-defined prompts can be removed here.")
+            return
+        if not messagebox.askyesno("NoteMan", f"Remove the user prompt '{prompt.title}'?"):
+            return
+        if prompt.path:
+            try:
+                prompt_path = Path(prompt.path).resolve()
+                if prompt_path.parent != user_prompt_directory().resolve():
+                    self._set_status("Built-in prompts cannot be removed here.")
+                    return
+                prompt_path.unlink(missing_ok=True)
+            except OSError as exc:
+                messagebox.showerror("NoteMan", f"The prompt could not be removed: {exc}")
+                return
+        self.prompts.remove(prompt)
+        self._refresh_prompt_groups()
+        self._refresh_prompt_choices()
+        self._set_status(f"Removed user prompt '{prompt.title}'.")
+
+    def _prompt_editor_dialog(self) -> tuple[str, str, bool] | None:
+        dialog = tk.Toplevel(self)
+        dialog.title("Add User Prompt")
+        dialog.geometry("560x430")
+        dialog.minsize(440, 340)
+        dialog.transient(self)
+        dialog.grab_set()
+        dialog.columnconfigure(0, weight=1)
+        dialog.rowconfigure(3, weight=1)
+
+        ttk.Label(dialog, text="Prompt name", font=("", 10, "bold")).grid(
+            row=0, column=0, sticky="w", padx=14, pady=(14, 5)
+        )
+        title_var = tk.StringVar()
+        title_entry = ttk.Entry(dialog, textvariable=title_var)
+        title_entry.grid(row=1, column=0, sticky="ew", padx=14, pady=(0, 12))
+        ttk.Label(dialog, text="Prompt text", font=("", 10, "bold")).grid(
+            row=2, column=0, sticky="w", padx=14, pady=(0, 5)
+        )
+        body_frame, body_box = self._scrolled_text(dialog, wrap="word")
+        body_frame.grid(row=3, column=0, sticky="nsew", padx=14)
+        persistent_var = tk.BooleanVar(value=True)
+        ttk.Checkbutton(dialog, text="Keep after closing NoteMan", variable=persistent_var).grid(
+            row=4, column=0, sticky="w", padx=14, pady=10
+        )
+        buttons = ttk.Frame(dialog)
+        buttons.grid(row=5, column=0, sticky="e", padx=14, pady=(0, 14))
+        result: list[tuple[str, str, bool]] = []
+
+        def accept() -> None:
+            title = title_var.get().strip()
+            body = self._text_content(body_box)
+            if not title or not body:
+                messagebox.showinfo("NoteMan", "Enter both a prompt name and prompt text.", parent=dialog)
+                return
+            result.append((title, body, persistent_var.get()))
+            dialog.destroy()
+
+        ttk.Button(buttons, text="Cancel", command=dialog.destroy).grid(row=0, column=0, padx=(0, 8))
+        ttk.Button(buttons, text="Add Prompt", command=accept).grid(row=0, column=1)
+        dialog.protocol("WM_DELETE_WINDOW", dialog.destroy)
+        title_entry.focus_set()
+        self.wait_window(dialog)
+        return result[0] if result else None
+
     def save_draft_as_fragment(self) -> None:
         draft_text = self._text_content(self.draft)
         if not draft_text:
@@ -405,10 +502,35 @@ class NoteManDesktopApp(tk.Tk):
         grouped = [prompt for prompt in self.prompts if prompt.group == group]
         return grouped or self.prompts
 
-    def _refresh_prompt_choices(self) -> None:
+    def _refresh_prompt_groups(self, preferred_group: str | None = None) -> None:
+        for child in self.prompt_group_frame.winfo_children():
+            child.destroy()
+        self.prompt_groups = self._prompt_group_names()
+        selected = preferred_group if preferred_group in self.prompt_groups else self.prompt_groups[0]
+        self.prompt_group_var.set(selected)
+        for column, group in enumerate(self.prompt_groups):
+            self.prompt_group_frame.columnconfigure(column, weight=1)
+            ttk.Radiobutton(
+                self.prompt_group_frame, text=group, value=group,
+                variable=self.prompt_group_var, command=self._refresh_prompt_choices,
+            ).grid(row=0, column=column, sticky="w")
+
+    def _refresh_prompt_choices(self, preferred_title: str | None = None) -> None:
         prompt_titles = [prompt.title for prompt in self._prompts_in_selected_group()]
         self.prompt_choice.configure(values=prompt_titles)
-        self.prompt_var.set(prompt_titles[0] if prompt_titles else "")
+        selected = preferred_title if preferred_title in prompt_titles else (prompt_titles[0] if prompt_titles else "")
+        self.prompt_var.set(selected)
+
+    @staticmethod
+    def _unique_prompt_path(directory: Path, title: str) -> Path:
+        safe_title = "".join(character if character.isalnum() or character in " -_" else "-" for character in title).strip()
+        safe_title = safe_title or "user-prompt"
+        path = directory / f"{safe_title}.txt"
+        suffix = 2
+        while path.exists():
+            path = directory / f"{safe_title}-{suffix}.txt"
+            suffix += 1
+        return path
 
     def _update_preview(self) -> None:
         content = "" if self.current_note is None else self._render_note_by_ai_method(include_ai=False)
