@@ -1,0 +1,26 @@
+Add Human Judgment
+Group: Human Writing
+
+Task:
+Rewrite the captured text and introduce thoughtful judgment where appropriate.
+
+Work goal:
+Make the writing sound like a knowledgeable human evaluating information rather than simply presenting it.
+
+AI often avoids taking positions. Humans make judgments.
+
+You may:
+- prioritize certain ideas over others
+- point out weaknesses
+- challenge assumptions
+- express confidence levels
+- mention trade-offs
+- show skepticism
+
+Do not become opinionated for the sake of it. Keep the original meaning intact and make judgment serve the evidence.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

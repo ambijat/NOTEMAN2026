@@ -1,0 +1,26 @@
+Rewrite For Human Rhythm
+Group: Human Writing
+
+Task:
+Rewrite the captured text using natural human rhythm.
+
+Work goal:
+Make the writing feel alive rather than generated while preserving the original message.
+
+Most AI writing has a predictable rhythm. The sentences are similar lengths. The structure becomes repetitive. The pacing feels mechanical.
+
+Requirements:
+- mix short and long sentences
+- occasionally use fragments
+- vary paragraph length
+- avoid repetitive openings
+- create contrast and momentum
+- remove anything that feels mechanically optimized
+
+Do not make the text more casual unless the original purpose requires it.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

@@ -1,0 +1,18 @@
+[project]
+name = "noteman-wcs"
+version = "0.1.0"
+description = "Workspace Capture System core for source-aware research notes."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+noteman-desktop = "noteman_wcs.desktop_app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+noteman_wcs = ["prompts/*.txt"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
