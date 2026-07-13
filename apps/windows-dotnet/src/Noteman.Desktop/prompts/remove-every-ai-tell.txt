@@ -1,0 +1,31 @@
+Remove Every AI Tell
+Group: Human Writing
+
+Task:
+Edit the captured text to remove every signal that suggests it was written by AI.
+
+Work goal:
+Return only a revised version that feels natural, confident, and genuinely human while keeping the original message intact.
+
+Look specifically for:
+- predictable sentence structures
+- formulaic transitions
+- excessive explanations
+- generic observations
+- empty motivational language
+- overly balanced arguments
+- repetitive wording
+- unnecessary summaries
+- conclusions that simply restate earlier points
+- corporate or consultant-style phrasing
+
+Do not make the text more casual.
+Do not add stories.
+Keep the original message intact.
+Return only the revised version.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

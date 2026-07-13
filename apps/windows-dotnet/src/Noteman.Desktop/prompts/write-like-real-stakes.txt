@@ -1,0 +1,30 @@
+Write Like Someone With Real Stakes
+Group: Human Writing
+
+Task:
+Rewrite the captured text as if it were written by someone whose reputation depends on being correct.
+
+Work goal:
+Make every sentence sound earned rather than generated.
+
+Avoid:
+- generic advice
+- safe observations
+- obvious statements
+- neutral commentary
+- broad claims that apply everywhere
+
+Instead:
+- prioritize useful insights
+- include stronger reasoning
+- focus on what actually matters
+- eliminate filler
+- speak with informed conviction
+
+Preserve the original message, but make the reasoning sharper and more accountable.
+
+Source: {source}
+Locator: {locator}
+
+Text:
+{fragment_text}

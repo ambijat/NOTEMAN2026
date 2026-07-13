@@ -1,0 +1,103 @@
+# NoteMan Workspace Format
+
+Python and C# implementations share this storage contract.
+
+```text
+Workspace/
+  ProjectName/
+    project.json
+    assets/
+    ai_corpus/
+      note-id-fragment-id.md
+      note-id-fragment-id.json
+    prompts/
+      usage.jsonl
+      snapshots/
+        prompt-use-id.txt
+    notes/
+      note-id.md
+      note-id.json
+```
+
+## Project
+
+`project.json` stores:
+
+- `id`
+- `name`
+- `created_at`
+
+## Note
+
+Each note has a Markdown export and a JSON sidecar.
+
+The JSON sidecar stores:
+
+- `id`
+- `title`
+- `created_at`
+- `fragments`
+
+## Assets
+
+`assets/` stores recoverable source inputs such as screenshots, scanned pages,
+PDF pages, clipboard images, and other files that produced fragments.
+
+Text-only capture and AI draft workflows may leave this folder empty.
+
+## Prompt-use provenance
+
+`prompts/` records every successful **Copy Prompt** action for the project,
+whether the selected template is built in or user-created.
+
+`snapshots/` contains the exact rendered prompt placed on the clipboard. These
+immutable snapshots include the captured source text as it appeared at the time
+of use. `usage.jsonl` contains one metadata object per line linking a snapshot
+to its template origin and hashes, project, note, fragment, source, locator, and
+UTC timestamp. Editing or deleting a template never changes an earlier snapshot.
+
+If the provenance record cannot be written, NoteMan does not copy the prompt.
+
+## AI Corpus
+
+`ai_corpus/` stores reviewed AI draft outputs created by `Save (AI) Draft`.
+These files are AI-derived research material, not original source assets and not
+the final exported note.
+
+Each AI corpus entry has a Markdown file and JSON sidecar.
+
+The JSON sidecar stores:
+
+- `id`
+- `note_id`
+- `note_title`
+- `fragment`
+- `created_at`
+
+## Fragment
+
+A fragment stores:
+
+- `id`
+- `text`
+- `source`
+- `locator`
+- `method`
+- `asset_id`
+- `created_at`
+
+AI draft fragments use `method: "ai_draft"`.
+
+Invariant: a fragment must have text or a recoverable asset reference.
+
+## Markdown
+
+Markdown export is a readable representation, not the only durable store.
+
+```markdown
+# Note Title
+
+## Source Label, p. 12
+
+Captured text.
+```

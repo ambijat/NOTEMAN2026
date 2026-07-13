@@ -1,0 +1,138 @@
+<Window x:Class="Noteman.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NoteMan Desktop"
+        Width="980"
+        Height="640"
+        MinWidth="760"
+        MinHeight="500">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock x:Name="StatusText" Text="Select a workspace to begin." />
+        </StatusBar>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="242" />
+                <ColumnDefinition Width="9*" />
+                <ColumnDefinition Width="9*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="#D0D7DE" BorderThickness="1" Padding="16,8">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="0,0,10,0">
+                    <TextBlock Text="Workspace" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Button Content="Choose Workspace" Click="ChooseWorkspace_Click" Margin="0,0,0,8" />
+                    <TextBlock x:Name="WorkspacePathText" TextWrapping="Wrap" Foreground="#57606A" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Project" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <ComboBox x:Name="ProjectChoice"
+                              IsEditable="True"
+                              Text="Thesis Notes"
+                              SelectionChanged="ProjectChoice_SelectionChanged"
+                              LostFocus="ProjectChoice_LostFocus"
+                              Margin="0,0,0,8" />
+
+                    <TextBlock Text="Note" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <ComboBox x:Name="NoteChoice"
+                              IsEditable="True"
+                              Text="Chapter One"
+                              SelectionChanged="NoteChoice_SelectionChanged"
+                              Margin="0,0,0,8" />
+                    <Button Content="New Note" Click="NewNote_Click" Margin="0,0,0,16" />
+
+                    <TextBlock Text="Source" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <TextBox x:Name="SourceBox" Text="Reference..." Margin="0,0,0,8" />
+
+                    <TextBlock Text="Page / Locator" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <DockPanel Margin="0,0,0,16">
+                        <Button DockPanel.Dock="Left" Content="-" Width="34" Click="PreviousPage_Click" />
+                        <Button DockPanel.Dock="Right" Content="+" Width="34" Click="NextPage_Click" />
+                        <TextBox x:Name="LocatorBox" Text="1" HorizontalContentAlignment="Center" />
+                    </DockPanel>
+
+                    <Button Content="Paste Clipboard Text" Click="PasteClipboardText_Click" Margin="0,0,0,8" />
+                    <Button Content="Clipboard OCR (soon)" Click="ClipboardOcr_Click" Margin="0,0,0,8" />
+                    <Button Content="Undo Last Capture" Click="UndoLastCapture_Click" Margin="0,0,0,8" />
+                    <Button Content="Export Text/AI Note" Click="ExportNote_Click" Margin="0,0,0,8" />
+                    <Button Content="Clear Typed Draft" Click="ClearTypedDraft_Click" Margin="0,0,0,14" />
+
+                    <Separator Margin="0,0,0,10" />
+                    <TextBlock Text="Prompt Library" FontWeight="SemiBold" Margin="0,0,0,6" />
+                    <Button Content="Add Prompt" Click="AddPrompt_Click" Margin="0,0,0,6" />
+                    <Button Content="Remove User Prompt" Click="RemovePrompt_Click" />
+                </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Typed / AI Draft" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBox x:Name="DraftBox"
+                         Grid.Row="1"
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Visible" />
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="180" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Caputre Text Preview" FontWeight="SemiBold" Margin="0,0,0,6" />
+                <TextBox x:Name="PreviewBox"
+                         Grid.Row="1"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Visible" />
+
+                <Grid Grid.Row="2" Margin="0,12,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <WrapPanel x:Name="PromptGroupPanel"
+                                Grid.ColumnSpan="2"
+                                Orientation="Horizontal"
+                                Margin="0,0,0,6" />
+                    <ComboBox x:Name="PromptChoice"
+                              Grid.Row="1"
+                              Grid.ColumnSpan="2"
+                              DisplayMemberPath="Title"
+                              SelectedValuePath="Path"
+                              SelectedIndex="0"
+                              Margin="0,0,0,6" />
+                    <Button Grid.Row="2" Content="Copy Prompt" Click="CopyPrompt_Click" Margin="0,0,4,0" />
+                    <Button Grid.Row="2" Grid.Column="1" Content="Paste AI Result" Click="PasteAiResult_Click" Margin="4,0,0,0" />
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DockPanel Margin="0,0,0,6">
+                        <TextBlock Text="AI Prompt Workbench" FontWeight="SemiBold" />
+                        <Button DockPanel.Dock="Right" Content="Save (AI) Draft" Click="SaveDraftAsFragment_Click" Width="120" />
+                    </DockPanel>
+                    <TextBox x:Name="PromptBox"
+                             Grid.Row="1"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Visible" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
