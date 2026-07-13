@@ -10,8 +10,8 @@ Four generations, each contributing a permanent idea:
 |---|---|---|
 | Visual Basic | `noteman1.txt` | Notes are files in a chosen folder; browse, compare, and search belong in the same tool as capture |
 | Python Tkinter | `nsu6.py` … `nsu64.py`, `nsu62b.py` | The fast capture loop: folder → timestamped note → paste with `Reference{Page}` → export → reset; OCR as source conversion |
-| C# translation | `repos/NOTEMAN/nsu62.cs` | The workflow is portable — not bound to any toolkit, language, or OS |
-| WCS reinvention | `repos/noteman-wcs`, `repos/noteman-desktop` | The referenced fragment replaces the file as the central object; capture becomes a research-ethics discipline |
+| C# translation | `archive/legacy-noteman/nsu62.cs` | The workflow is portable — not bound to any toolkit, language, or OS |
+| WCS reinvention | `apps/ubuntu-python`, `apps/windows-dotnet` | The referenced fragment replaces the file as the central object; capture becomes a research-ethics discipline |
 
 The direction of refinement is the continuation of one long movement:
 
@@ -39,7 +39,7 @@ Every planned change falls on one of five axes. A change that does not advance a
 
 ## 3. Governing Discipline
 
-The refinement is constrained by the Coding Testament (`repos/noteman-wcs/docs/CODING_TESTAMENT.md`, mirrored in `noteman-desktop`). Its operative test for every feature:
+The refinement is constrained by the Coding Testament (`apps/ubuntu-python/docs/CODING_TESTAMENT.md`, mirrored in `apps/windows-dotnet`). Its operative test for every feature:
 
 ```text
 Does this preserve compartments, source trail, and deliberate user action?
@@ -60,7 +60,7 @@ The five-phase plan from `ONTOLOGICAL_BASIS.md` Section 8, with live status:
 
 ### Phase 1 — Stabilize current behavior: **superseded**
 
-Rather than refactoring `nsu62b.py` in place, the WCS rewrite absorbed its lessons (state flags, OCR ordering, cross-platform paths) into a clean package. The legacy scripts are frozen in `repos/NOTEMAN` under a preservation policy: historical behavior is retained, no new features.
+Rather than refactoring `nsu62b.py` in place, the WCS rewrite absorbed its lessons (state flags, OCR ordering, cross-platform paths) into a clean package. The legacy scripts are frozen in `archive/legacy-noteman` under a preservation policy: historical behavior is retained, no new features.
 
 ### Phase 2 — Introduce domain models: **done**
 
@@ -72,7 +72,7 @@ The prompt workbench, `ai_corpus/` storage compartment, and `ai_draft` extractio
 
 ### Current objective — Ubuntu Ollama screenshot reader: **in progress**
 
-Defined in `repos/noteman-wcs/NEXT_OBJECTIVE.md`:
+Defined in `apps/ubuntu-python/NEXT_OBJECTIVE.md`:
 
 ```text
 screenshot/image -> local OCR or Ollama vision -> cleaned text/summary
@@ -91,21 +91,21 @@ Assets are now preserved (copied, never deleted) — the reversal of the legacy 
 
 ### Phase 5 — Modernize interface: **ongoing on two tracks**
 
-The Ubuntu Tkinter shell (`desktop_app.py`) and the Windows WPF shell (`noteman-desktop`) evolve in parallel. The goal is identical research behavior, not identical code; each completed platform session leaves a parity handoff (`docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`) so the other platform can emulate it.
+The Ubuntu Tkinter shell (`apps/ubuntu-python`) and the Windows WPF shell (`apps/windows-dotnet`) evolve in parallel. The goal is identical research behavior, not identical code; each completed platform session leaves a parity handoff (`docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`) so the other platform can emulate it.
 
 ## 5. Repository Ecosystem Direction
 
-From `repos/noteman-wcs/docs/REPOSITORY_STRATEGY.md` and the READMEs:
+From `apps/ubuntu-python/docs/REPOSITORY_STRATEGY.md` and the READMEs:
 
 | Repository | Role | Direction |
 |---|---|---|
 | `NOTEMAN` | Legacy archive | Frozen; preserve distinct historical capabilities, accept no major features |
-| `noteman-wcs` | Core ontology, storage, Python reference | Primary home for Ubuntu/Linux work and shared-format decisions |
-| `noteman-desktop` | Windows C#/WPF shell | Primary home for Windows work; parity via the shared workspace format |
+| `apps/ubuntu-python` | Core ontology, storage, Python reference | Primary home for Ubuntu/Linux work and shared-format decisions |
+| `apps/windows-dotnet` | Windows C#/WPF shell | Primary home for Windows work; parity via the shared workspace format |
 | `NOTEMAN-OCR` | Future extraction adapters | Create only when implementation justifies it |
 | `NOTEMAN-RESEARCH-KIT` | Future templates and student workflows | Create only when implementation justifies it |
 
-Rule of placement: the platform chooses the principal repository — Linux work lands first in `noteman-wcs`, Windows work first in `noteman-desktop`, and the workspace format is the treaty between them.
+Rule of placement: the platform chooses the principal implementation — Linux work lands first in `apps/ubuntu-python`, Windows work first in `apps/windows-dotnet`, and the workspace format is the treaty between them.
 
 ## 6. Near-Term Refinement Queue
 

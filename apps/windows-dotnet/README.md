@@ -1,11 +1,13 @@
-# noteman-desktop
+# NOTEMAN2026 — Windows/.NET
 
 Windows desktop implementation of NoteMan as a source-aware Workspace Capture System.
 
-This is the **authoritative Windows product**. `noteman-wcs` is its
+This is the **authoritative Windows product**. `apps/ubuntu-python` is its
 cross-platform behavioral reference; `NOTEMAN` is a historical archive.
 
-This repository is the C# companion to `noteman-wcs`. The two implementations may have different interfaces, but they should read and write the same workspace format.
+This directory is the C# companion to `apps/ubuntu-python`. The two
+implementations may have different interfaces, but they should read and write
+the same workspace format.
 
 When Windows work follows a completed Python session, begin from a platform parity handoff. The goal is not identical source code; it is identical research behavior across OS and language boundaries.
 
@@ -32,7 +34,7 @@ Source -> Locator -> Extraction -> Fragment -> Note -> Review
 
 - `src/Noteman.Core`: domain model and file-based persistence
 - `src/Noteman.Desktop`: WPF desktop shell
-- `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`: Windows parity checklist for mirroring completed `noteman-wcs` behavior
+- `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`: Windows parity checklist for mirroring completed `apps/ubuntu-python` behavior
 
 ## Build
 

@@ -1,7 +1,7 @@
 # NoteMan Workflow Protocol
 
-This protocol is the shared behavior contract for `noteman-wcs` and
-`noteman-desktop`. Platform controls may differ, but the research workflow,
+This protocol is the shared behavior contract for `apps/ubuntu-python` and
+`apps/windows-dotnet`. Platform controls may differ, but the research workflow,
 visible vocabulary, storage folders, and fragment meanings must stay aligned.
 
 ## Hierarchy
@@ -118,14 +118,14 @@ parity handoff.
 
 ## Validation Before Commit
 
-For `noteman-wcs`:
+For `apps/ubuntu-python`:
 
 ```bash
 python3 -m py_compile src/noteman_wcs/desktop_app.py src/noteman_wcs/prompts.py src/noteman_wcs/storage.py
 PYTHONPATH=src python3 -m unittest discover -s tests
 ```
 
-For `noteman-desktop` on a Windows-capable .NET SDK:
+For `apps/windows-dotnet` on a Windows-capable .NET SDK:
 
 ```bash
 dotnet build src/Noteman.Core/Noteman.Core.csproj

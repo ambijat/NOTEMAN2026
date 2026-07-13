@@ -1,0 +1,197 @@
+Imports System.IO
+Public Class Form1
+    Dim file As System.IO.StreamWriter
+    Dim h, r, w, l, u, s As String
+    Dim r1, r2 As String
+
+    Dim fp, fn, fe, kp As String
+    Dim st1 As String
+
+    Dim j As Integer = 1
+
+
+    Private Sub rst_Click(sender As Object, e As EventArgs) Handles rst.Click
+        tb1.ResetText()
+    End Sub
+
+    Private Sub nr_Click(sender As Object, e As EventArgs) Handles nr.Click
+        fn = "new"
+        fe = ".txt"
+        st1 = "Set the Destination folder First, Click Folder."
+
+        If tb2.Text = vbNullString Then
+            tb1.Text = st1
+        Else
+            tb1.Clear()
+            Dim v As String = Now.ToString("ddMMMyyyyhhmm")
+            r = fn + v + fe
+            h = My.Computer.FileSystem.CombinePath(fp, r)
+            tb1.AppendText(h + vbNewLine + "===========================================" + vbNewLine + vbNewLine)
+        End If
+    End Sub
+
+    Private Sub pas_Click(sender As Object, e As EventArgs) Handles pas.Click
+        tb1.AppendText(Clipboard.GetText + vbNewLine + vbNewLine)
+    End Sub
+
+    Private Sub xpt_Click(sender As Object, e As EventArgs) Handles xpt.Click
+        If h Is vbNullString Then
+            tb1.Text = "Cannot Export as File Name not set." + "  Choose New Record." + vbNewLine + vbNewLine + "Press Reset to Continue."
+        Else
+            file = My.Computer.FileSystem.OpenTextFileWriter(h, True)
+            file.WriteLine(tb1.Text)
+            file.WriteLine("==========================")
+            file.Close()
+
+            tb1.Clear()
+            tb1.Text = " Content Exported To File."
+        End If
+    End Sub
+
+    Private Sub fl_Click(sender As Object, e As EventArgs) Handles fl.Click
+        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+
+            fp = FolderBrowserDialog1.SelectedPath
+            tb2.Text = New DirectoryInfo(fp).Name
+
+            If tb1.Text = st1 Then
+                tb1.Clear()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub chs_Click(sender As Object, e As EventArgs) Handles chs.Click
+
+        cb1.Items.Clear()
+        cb2.Items.Clear()
+
+
+        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+            kp = FolderBrowserDialog1.SelectedPath
+            cb1.Text = New DirectoryInfo(kp).Name
+
+        End If
+
+        Dim dinfo As New DirectoryInfo(kp)
+        'Get the files based on .txt extension
+        Dim files As FileInfo() = dinfo.GetFiles("*.txt")
+
+        'Get the dirs
+        Dim dirs As DirectoryInfo() = dinfo.GetDirectories()
+
+        'loop through each directory to add it to listbox control
+        For Each dir As DirectoryInfo In dirs
+            ' Do work, example
+            cb1.Items.Add(dir.Name)
+        Next
+
+        'loop through each files and add it to Listbox control
+        For Each file As FileInfo In files
+            ' Do work, example
+            cb2.Items.Add(file.Name)
+        Next
+    End Sub
+
+    Private Sub cb1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb1.SelectedIndexChanged
+
+        s = cb1.SelectedItem
+        Dim w As String = kp + "\" + s
+
+        Dim dinfo As New DirectoryInfo(w)
+        'Get the files based on .txt extension
+        Dim files As FileInfo() = dinfo.GetFiles("*.txt")
+
+        cb2.Items.Clear()
+        cb2.ResetText()
+        tb3.ResetText()
+        tb4.ResetText()
+        j = 1
+
+        'loop through each files and add it to Listbox control
+        For Each file As FileInfo In files
+            ' Do work, example
+            cb2.Items.Add(file.Name)
+        Next
+
+    End Sub
+
+    Private Sub cb2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb2.SelectedIndexChanged
+        Dim r As String = cb2.SelectedItem
+        Dim m As String = kp + "\" + s + "\" + r
+
+
+
+        If tb3.Text = vbNullString And tb4.Text = vbNullString Then
+            tb3.Text = System.IO.File.ReadAllText(m)
+
+        ElseIf tb3.Text IsNot vbNullString And tb4.Text = vbNullString Then
+            tb4.Text = System.IO.File.ReadAllText(m)
+
+        ElseIf tb3.Text IsNot vbNullString And tb4.Text IsNot vbNullString And j = 1 Then
+            tb3.Text = System.IO.File.ReadAllText(m)
+            j = 2
+
+        ElseIf tb3.Text IsNot vbNullString And tb4.Text IsNot vbNullString And j = 2 Then
+            tb4.Text = System.IO.File.ReadAllText(m)
+            j = 1
+        End If
+    End Sub
+
+
+    Private Sub sch_Click(sender As Object, e As EventArgs) Handles sch.Click
+
+        cb6.Items.Clear()
+        cb6.ResetText()
+
+        tb5.Clear()
+
+        Dim list As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
+        list = My.Computer.FileSystem.FindInFiles(u, l, True, FileIO.SearchOption.SearchTopLevelOnly)
+
+        For Each fan In list
+            r1 = Path.GetFileName(fan)
+            r2 = Path.GetDirectoryName(fan)
+            cb6.Items.Add(r1)
+        Next
+
+
+    End Sub
+
+
+
+    Private Sub loc_Click(sender As Object, e As EventArgs) Handles loc.Click
+
+        cb5.Items.Clear()
+        cb6.Items.Clear()
+        cb6.ResetText()
+
+        tb5.Clear()
+
+
+        If (FolderBrowserDialog2.ShowDialog() = DialogResult.OK) Then
+            u = FolderBrowserDialog2.SelectedPath
+            cb5.Text = New DirectoryInfo(u).Name
+        End If
+
+
+
+    End Sub
+
+    Private Sub tb6_TextChanged(sender As Object, e As EventArgs) Handles tb6.TextChanged
+        l = tb6.Text
+
+    End Sub
+
+
+    Private Sub cb6_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb6.SelectedIndexChanged
+
+        Dim k As String = cb6.SelectedItem
+        Dim bb As String = r2 + "\" + k
+        tb5.Text = System.IO.File.ReadAllText(bb)
+    End Sub
+
+    Private Sub tb6_MouseClick(sender As Object, e As MouseEventArgs) Handles tb6.MouseClick
+        tb6.Text = ""
+    End Sub
+End Class

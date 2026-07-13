@@ -2,8 +2,8 @@
 
 ## Source Session
 
-- Source repo: `noteman-desktop`
-- Target repo: `noteman-wcs`
+- Source repo: `apps/windows-dotnet`
+- Target repo: `apps/ubuntu-python`
 - Platform implemented first: Windows
 - Date: 2026-07-12
 - Feature or workflow name: Temporary and persistent user-defined prompts

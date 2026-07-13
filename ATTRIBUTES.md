@@ -4,9 +4,9 @@ Companion to `ONTOLOGICAL_BASIS.md`. That document defines the entities; this on
 
 Sources of truth, in order of authority:
 
-1. `repos/noteman-wcs/src/noteman_wcs/domain.py` — the dataclasses
-2. `repos/noteman-wcs/docs/WORKSPACE_FORMAT.md` — the storage contract shared with C#
-3. `repos/noteman-wcs/src/noteman_wcs/storage.py` — the serialization behavior
+1. `apps/ubuntu-python/src/noteman_wcs/domain.py` — the dataclasses
+2. `apps/ubuntu-python/docs/WORKSPACE_FORMAT.md` — the storage contract shared with C#
+3. `apps/ubuntu-python/src/noteman_wcs/storage.py` — the serialization behavior
 
 If a future change makes these disagree, fix the code or the contract, then this catalog.
 
@@ -83,7 +83,7 @@ A position inside a source. Frozen value object.
 
 Display rule (`Locator.display()`): empty when kind is `none` or value is blank; `p. <value>` for pages; `<kind>: <value>` otherwise. This drives the citation heading in Markdown exports.
 
-Legacy ancestry: `tb5` page number and the inline `Reference{Pgs.}` format — called "the soul of the tool" in `repos/NOTEMAN/docs/LINEAGE.md`.
+Legacy ancestry: `tb5` page number and the inline `Reference{Pgs.}` format — called "the soul of the tool" in `archive/legacy-noteman/docs/LINEAGE.md`.
 
 ## CaptureFragment
 
@@ -146,7 +146,7 @@ Storage: `ai_corpus/<note-id>-<fragment-id>.md` plus JSON sidecar of the same na
 
 ## PromptTemplate
 
-A local, editable instruction that renders a fragment into an AI prompt. Lives as plain text files in `repos/noteman-wcs/src/noteman_wcs/prompts/`, managed by `prompts.py`.
+A local, editable instruction that renders a fragment into an AI prompt. Lives as plain text files in `apps/ubuntu-python/src/noteman_wcs/prompts/`, managed by `prompts.py`.
 
 Governing rules (from the Coding Testament): the prompt body must remain visible, inspectable text; prompt groups may classify tasks for selection but must not become hidden instructions or change source, draft, note, or export state.
 

@@ -10,8 +10,8 @@ Build a Python workflow that reads screenshots or page images on Ubuntu, extract
 
 The output must stay compatible with the shared workspace format used by both:
 
-- Python `noteman-wcs`
-- Windows C# `noteman-desktop`
+- Python `apps/ubuntu-python`
+- Windows C# `apps/windows-dotnet`
 
 ## Problem
 

@@ -61,10 +61,10 @@ The app should make movement between compartments deliberate and visible.
     The system may help produce drafts, but it must not grade its own output as final research material.
 
 13. Choose the principal repository with the platform.
-    Ubuntu and Linux work belongs first in `noteman-wcs`; Windows desktop work belongs first in `noteman-desktop`.
+    Ubuntu and Linux work belongs first in `apps/ubuntu-python`; Windows desktop work belongs first in `apps/windows-dotnet`.
 
 14. Leave a parity handoff after platform work.
-    A completed `noteman-wcs` session should update `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md` or create a filled handoff so `noteman-desktop` can emulate the same behavior on Windows.
+    A completed `apps/ubuntu-python` session should update `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md` or create a filled handoff so `apps/windows-dotnet` can emulate the same behavior on Windows.
 
 ## Design Shape
 

@@ -1,13 +1,13 @@
 # Platform Parity Handoff Template
 
-Use this when implementing Windows behavior that follows a completed `noteman-wcs` session.
+Use this when implementing Windows behavior that follows a completed `apps/ubuntu-python` session.
 
 The handoff exists so the Windows version can emulate the Python version's function without guessing. Different OS APIs, language constructs, and UI controls are acceptable only when the research behavior remains the same.
 
 ## Source Session
 
-- Source repo: `noteman-wcs`
-- Target repo: `noteman-desktop`
+- Source repo: `apps/ubuntu-python`
+- Target repo: `apps/windows-dotnet`
 - Platform implemented first: Ubuntu / Linux
 - Date:
 - Source commit:
@@ -46,7 +46,7 @@ The handoff exists so the Windows version can emulate the Python version's funct
 
 ## Verification Checklist
 
-- [ ] Same workflow is reachable in `noteman-desktop`.
+- [ ] Same workflow is reachable in `apps/windows-dotnet`.
 - [ ] Same source, locator, draft, review, and export compartments are preserved.
 - [ ] Same workspace format is read and written.
 - [ ] Same warnings and final acceptance rules exist.

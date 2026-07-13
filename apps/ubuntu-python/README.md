@@ -1,9 +1,10 @@
-# noteman-wcs
+# NOTEMAN2026 — Ubuntu/Python
 
-noteman-wcs is the new home for NoteMan as a Workspace Capture System.
+This directory is the Ubuntu/Python implementation of NOTEMAN2026 as a
+Workspace Capture System.
 
 It is the **Python/Linux reference implementation and shared behavioral
-contract**. The authoritative Windows product lives in `noteman-desktop`.
+contract**. The authoritative Windows product lives in `apps/windows-dotnet`.
 
 The old NoteMan programs proved the core workflow: select a folder, create a note, paste or OCR material, attach a reference/page marker, export it, and later review it. This repository rethinks that idea as a research-note architecture built around referenced fragments rather than plain text files alone.
 
@@ -50,8 +51,8 @@ It contains:
 The proposed future ecosystem is:
 
 - `NOTEMAN`: legacy archive and historical reference
-- `noteman-wcs`: core ontology, storage, and reference implementation
-- `noteman-desktop`: Windows C# GUI shell over the WCS core
+- `apps/ubuntu-python`: core ontology, storage, and reference implementation
+- `apps/windows-dotnet`: Windows C# GUI shell over the WCS core
 - `NOTEMAN-OCR`: future OCR/extraction adapters
 - `NOTEMAN-RESEARCH-KIT`: future templates, workflows, and documentation for research students
 

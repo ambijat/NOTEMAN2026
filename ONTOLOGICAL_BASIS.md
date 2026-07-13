@@ -2,7 +2,7 @@
 
 This document extracts the durable concepts behind the Visual Basic and Python NoteMan/NoteMaker variants in this folder. Its purpose is to guide the next evolution of the project without tying the design to any one GUI toolkit, operating system, or file layout.
 
-This edition is upgraded to reflect the realized successor implementation in `repos/noteman-wcs` (Python reference) and `repos/noteman-desktop` (Windows C#). The ontology below is no longer only a proposal: most entities now exist in code (`repos/noteman-wcs/src/noteman_wcs/domain.py`) and in a shared storage contract (`repos/noteman-wcs/docs/WORKSPACE_FORMAT.md`). Section 10 records what is realized and what remains open.
+This edition is upgraded to reflect the realized successor implementation in `apps/ubuntu-python` (Python reference) and `apps/windows-dotnet` (Windows C#). The ontology below is no longer only a proposal: most entities now exist in code (`apps/ubuntu-python/src/noteman_wcs/domain.py`) and in a shared storage contract (`apps/ubuntu-python/docs/WORKSPACE_FORMAT.md`). Section 10 records what is realized and what remains open.
 
 Companion documents carry the enhancement detail:
 
@@ -172,7 +172,7 @@ A local, plain-text, editable instruction that renders a captured fragment into 
 
 Current code expression:
 
-- `repos/noteman-wcs/src/noteman_wcs/prompts.py` and the editable corpus in `src/noteman_wcs/prompts/`
+- `apps/ubuntu-python/src/noteman_wcs/prompts.py` and the editable corpus in `src/noteman_wcs/prompts/`
 
 Future role:
 
@@ -323,7 +323,7 @@ noteman/
 
 This keeps the ontology independent from Tkinter, Visual Basic, Notepad, Leafpad, GNOME Text Editor, Windows clipboard APIs, or Linux clipboard commands.
 
-This separation has since been realized in `repos/noteman-wcs/src/noteman_wcs/`:
+This separation has since been realized in `apps/ubuntu-python/src/noteman_wcs/`:
 
 ```text
 noteman_wcs/
@@ -336,7 +336,7 @@ noteman_wcs/
   tools/            # command-line entry points
 ```
 
-The Windows counterpart lives in `repos/noteman-desktop` (`Noteman.Core` domain/persistence, `Noteman.Desktop` WPF shell) and shares the same storage contract rather than the same code.
+The Windows counterpart lives in `apps/windows-dotnet` (`Noteman.Core` domain/persistence, `Noteman.Desktop` WPF shell) and shares the same storage contract rather than the same code.
 
 ## 7. Suggested Data Model
 
@@ -433,15 +433,14 @@ What this ontology proposed and what now exists:
 
 | Concept | Status | Where |
 |---|---|---|
-| Domain entities (Workspace, Project, Note, Source, Locator, CaptureFragment, Asset) | Realized | `noteman-wcs/src/noteman_wcs/domain.py` |
+| Domain entities (Workspace, Project, Note, Source, Locator, CaptureFragment, Asset) | Realized | `apps/ubuntu-python/src/noteman_wcs/domain.py` |
 | Fragment invariant (text or recoverable asset) | Enforced in code | `CaptureFragment.__post_init__` |
-| Shared file-based storage (JSON sidecars + Markdown export) | Realized | `noteman-wcs/src/noteman_wcs/storage.py`, `docs/WORKSPACE_FORMAT.md` |
+| Shared file-based storage (JSON sidecars + Markdown export) | Realized | `apps/ubuntu-python/src/noteman_wcs/storage.py`, `apps/ubuntu-python/docs/WORKSPACE_FORMAT.md` |
 | AI draft compartment (`ai_corpus/`, `method: ai_draft`) | Realized | storage contract and repository |
-| Prompt template corpus | Realized | `noteman-wcs/src/noteman_wcs/prompts/` |
-| Desktop capture shell | Realized on Ubuntu (Tkinter) and scaffolded on Windows (WPF) | `desktop_app.py`, `noteman-desktop` |
-| Local screenshot reader (Tesseract + Ollama vision) | In progress — current objective | `noteman-wcs/NEXT_OBJECTIVE.md` |
+| Prompt template corpus | Realized | `apps/ubuntu-python/src/noteman_wcs/prompts/` |
+| Desktop capture shell | Realized on Ubuntu (Tkinter) and scaffolded on Windows (WPF) | `apps/ubuntu-python`, `apps/windows-dotnet` |
+| Local screenshot reader (Tesseract + Ollama vision) | In progress — current objective | `apps/ubuntu-python/NEXT_OBJECTIVE.md` |
 | Review mode (fragment search, compare, bibliography) | Not yet restored | Phase 3 of the roadmap |
 | Asset preservation with OCR confidence | Partially (assets copied, confidence not yet stored) | Phase 4 of the roadmap |
 
 The evolution roadmap in Section 8 remains the reference plan; `DIRECTION_OF_REFINEMENT.md` tracks the live status and ordering of the phases across repositories.
-
