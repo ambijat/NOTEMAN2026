@@ -1,0 +1,27 @@
+# Local working copies retained as migration safety backups.
+/repos/
+
+# Local environments and editor state.
+/.venv/
+/.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Generated build output.
+**/bin/
+**/obj/
+**/dist/
+**/build/
+
+# Historical root artifacts are preserved canonically under archive/workspace-snapshot.
+/NOTEMAN1_V1.exe
+/NOTEMAN1_v2.exe
+/noteman1.txt
+/nsu6.py
+/nsu62.py
+/nsu62_a.py
+/nsu62b.py
+/nsu62w.py
+/nsu63w.py
+/nsu64.py
