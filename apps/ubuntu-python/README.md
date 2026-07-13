@@ -46,18 +46,10 @@ It contains:
 - `docs/REPOSITORY_STRATEGY.md`: what to do with old and future repositories
 - `docs/PLATFORM_PARITY_HANDOFF_TEMPLATE.md`: session handoff template for keeping Python and Windows behavior aligned
 
-## Repository Ecosystem
+## Product implementations
 
-The proposed future ecosystem is:
-
-- `NOTEMAN`: legacy archive and historical reference
-- `apps/ubuntu-python`: core ontology, storage, and reference implementation
-- `apps/windows-dotnet`: Windows C# GUI shell over the WCS core
-- `NOTEMAN-OCR`: future OCR/extraction adapters
-- `NOTEMAN-RESEARCH-KIT`: future templates, workflows, and documentation for research students
-
-The first three repositories exist today. OCR and research-kit repositories
-should be created only when enough implementation exists to justify them.
+- `apps/ubuntu-python`: core ontology, storage, and Ubuntu/Python GUI
+- `apps/windows-dotnet`: Windows .NET desktop GUI over the shared behavior and workspace format
 
 ## Development
 

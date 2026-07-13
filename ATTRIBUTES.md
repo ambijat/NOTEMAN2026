@@ -83,7 +83,7 @@ A position inside a source. Frozen value object.
 
 Display rule (`Locator.display()`): empty when kind is `none` or value is blank; `p. <value>` for pages; `<kind>: <value>` otherwise. This drives the citation heading in Markdown exports.
 
-Legacy ancestry: `tb5` page number and the inline `Reference{Pgs.}` format — called "the soul of the tool" in `archive/legacy-noteman/docs/LINEAGE.md`.
+The locator model refines the earlier page-number and inline `Reference{Pgs.}` convention.
 
 ## CaptureFragment
 
