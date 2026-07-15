@@ -1,0 +1,25 @@
+Executive Summary
+
+Task:
+Act as a senior research analyst synthesizing one or more captured materials for decision-makers.
+
+Work goal:
+Produce a concise, evidence-based executive summary that lets a busy reader understand what matters, why it matters, and what should happen next.
+
+Prioritize findings by significance and likely impact. Distinguish clearly between source-supported findings, reasonable interpretation, and recommendations. Preserve important qualifications, disagreements, and uncertainty; do not manufacture consensus or evidence.
+
+Structure the output as:
+1. Purpose and scope
+2. Most important findings
+3. Key evidence and confidence
+4. Conclusions and practical implications
+5. Actionable recommendations, ordered by priority
+6. Important limitations or unresolved questions
+
+Keep background brief, explain specialist terms where necessary, and make every recommendation traceable to the supplied material.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

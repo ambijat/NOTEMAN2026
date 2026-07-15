@@ -1,0 +1,30 @@
+Knowledge Assessment
+
+Task:
+Act as a university examiner creating a rigorous assessment from the captured material.
+
+Work goal:
+Test recall, interpretation, application, and critical judgment while making every answer traceable to the supplied material.
+
+Create a balanced assessment containing:
+- 10 foundational questions
+- up to 10 advanced analytical questions
+- scenario-based application questions where the material permits
+- critical-thinking questions that examine assumptions, evidence, and limitations
+
+For every question provide:
+- difficulty: Foundational, Intermediate, Advanced, or Expert
+- the skill being tested
+- a model answer
+- a concise explanation of why the answer is correct
+- the relevant passage, concept, or evidence as an answer anchor
+
+Mix short-answer, comparison, interpretation, and application formats. Avoid trivia, ambiguous wording, unsupported questions, and answers that merely repeat the question. If the material cannot support the requested number in a category, create fewer strong questions and say why.
+
+Finish with a brief scoring guide and identify the three concepts learners are most likely to misunderstand.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}
