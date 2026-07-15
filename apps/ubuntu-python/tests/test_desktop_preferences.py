@@ -3,10 +3,22 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from noteman_wcs.desktop_app import load_last_workspace, save_last_workspace, workspace_dialog_initial_dir
+from noteman_wcs.desktop_app import (
+    NoteManDesktopApp,
+    load_last_workspace,
+    save_last_workspace,
+    workspace_dialog_initial_dir,
+)
+from noteman_wcs.prompts import PromptTemplate
 
 
 class DesktopPreferenceTests(unittest.TestCase):
+    def test_user_prompt_group_is_available_before_user_adds_a_prompt(self):
+        app = object.__new__(NoteManDesktopApp)
+        app.prompts = [PromptTemplate(title="Research Prompt", body="Research Prompt")]
+
+        self.assertEqual(["Research", "User"], app._prompt_group_names())
+
     def test_last_workspace_round_trips_through_config_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             config_path = Path(tmp) / "desktop_app.json"
