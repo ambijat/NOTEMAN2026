@@ -78,6 +78,15 @@ public partial class MainWindow : Window
         StatusText.Text = $"New note with {noteTitle} created.";
     }
 
+    private void RetrieveNote_Click(object sender, RoutedEventArgs e)
+    {
+        var display = NoteChoice.SelectedItem as string ?? Clean(NoteChoice.Text);
+        if (!LoadNoteForDisplay(display))
+        {
+            StatusText.Text = "Select an exported note from the Note list to retrieve it.";
+        }
+    }
+
     private void PasteClipboardText_Click(object sender, RoutedEventArgs e)
     {
         EnsureNote();
@@ -110,11 +119,14 @@ public partial class MainWindow : Window
 
         if (!string.IsNullOrWhiteSpace(DraftBox.Text) && !DraftMatchesLoadedAiRetrieval())
         {
-            AddFragment(DraftBox.Text, ExtractionMethods.Manual, clearDraft: true);
+            AddFragment(DraftBox.Text, ExtractionMethods.Manual);
         }
 
         var repository = new FileProjectRepository(workspacePath!);
         var notePath = repository.SaveNote(currentProject!, currentNote!);
+        PreviewBox.Clear();
+        DraftBox.Clear();
+        draftLoadedFromNote = false;
         RefreshProjectChoices();
         RefreshNoteChoices();
         StatusText.Text = $"Exported to {notePath}";
@@ -208,9 +220,18 @@ public partial class MainWindow : Window
             return;
         }
 
-        DraftBox.Text = Clipboard.GetText().Trim();
+        var pastedText = Clipboard.GetText().Trim();
+        if (!string.IsNullOrWhiteSpace(DraftBox.Text))
+        {
+            DraftBox.AppendText($"{Environment.NewLine}{Environment.NewLine}");
+        }
+
+        DraftBox.AppendText(pastedText);
+        DraftBox.CaretIndex = DraftBox.Text.Length;
+        DraftBox.ScrollToEnd();
+        DraftBox.Focus();
         draftLoadedFromNote = false;
-        StatusText.Text = "Pasted AI result into Typed / AI Draft. Review it before saving.";
+        StatusText.Text = "Appended AI result to Typed / AI Draft. Review it before saving.";
     }
 
     private void AddPrompt_Click(object sender, RoutedEventArgs e)
@@ -370,9 +391,13 @@ public partial class MainWindow : Window
 
     private void UpdatePreview()
     {
-        PreviewBox.Text = currentNote is null
+        var latestCapture = currentNote?.Fragments.LastOrDefault(
+            fragment => fragment.Method != ExtractionMethods.AiDraft);
+        PreviewBox.Text = latestCapture is null
             ? ""
-            : RenderNoteByAiMethod(includeAi: false);
+            : string.Join("\n", FileProjectRepository.RenderFragment(latestCapture)).TrimEnd() + "\n";
+        PreviewBox.CaretIndex = 0;
+        PreviewBox.ScrollToHome();
     }
 
     private string RenderNoteByAiMethod(bool includeAi)
@@ -471,12 +496,13 @@ public partial class MainWindow : Window
 
         currentProject = LoadOrCreateProject(projectName);
         currentNote = note;
-        NoteChoice.Text = note.Title;
-        var aiRetrieval = RenderNoteByAiMethod(includeAi: true);
-        DraftBox.Text = aiRetrieval.Trim() == $"# {note.Title}" ? "" : aiRetrieval;
-        draftLoadedFromNote = !string.IsNullOrWhiteSpace(DraftBox.Text);
+        NoteChoice.Text = display;
+        DraftBox.Text = FileProjectRepository.RenderNoteMarkdown(note);
+        DraftBox.CaretIndex = 0;
+        DraftBox.ScrollToHome();
+        draftLoadedFromNote = true;
         UpdatePreview();
-        StatusText.Text = "Loaded existing note.";
+        StatusText.Text = "Retrieved existing note into Typed / AI Draft.";
         return true;
     }
 
@@ -484,7 +510,10 @@ public partial class MainWindow : Window
     {
         return draftLoadedFromNote
             && currentNote is not null
-            && string.Equals(DraftBox.Text.Trim(), RenderNoteByAiMethod(includeAi: true).Trim(), StringComparison.Ordinal);
+            && string.Equals(
+                DraftBox.Text.Trim(),
+                FileProjectRepository.RenderNoteMarkdown(currentNote).Trim(),
+                StringComparison.Ordinal);
     }
 
     private Project LoadOrCreateProject(string projectName)
