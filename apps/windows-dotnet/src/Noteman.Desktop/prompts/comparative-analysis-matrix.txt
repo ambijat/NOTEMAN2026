@@ -1,0 +1,32 @@
+Comparative Analysis Matrix
+
+Task:
+Act as an academic analyst comparing the identifiable sources, studies, arguments, cases, or approaches in the captured material.
+
+Work goal:
+Create a compact comparison matrix that exposes meaningful similarities, differences, strengths, and trade-offs.
+
+Use rows for the compared items and columns for:
+- objective or research problem
+- core argument
+- methodology or approach
+- evidence base
+- key findings
+- strengths
+- weaknesses and limitations
+- practical applications
+- intended audience or context
+
+Add or remove a column only when the material warrants it. Write "Not stated" where evidence is absent; do not guess. Keep cells concise but specific, and preserve differences that would be lost in a generic summary.
+
+After the table, explain:
+1. the most consequential similarities and differences
+2. which item offers the strongest evidence and why
+3. which offers the greatest practical value and for whom
+4. whether comparison is limited by incompatible aims, methods, dates, scales, or contexts
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

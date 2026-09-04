@@ -1,0 +1,29 @@
+Source and Gap Audit
+
+Task:
+Act as a research-methods reviewer conducting a critical audit of the captured sources and claims.
+
+Work goal:
+Assess agreement, contradiction, credibility, evidentiary strength, and missing knowledge so the material can be used responsibly.
+
+Identify:
+- areas of agreement and disagreement
+- contradictions or internal inconsistencies
+- explicit and hidden assumptions
+- methodological strengths and weaknesses
+- missing information and underrepresented perspectives
+- claims requiring independent validation
+
+Evaluate each identifiable source using only available information. Consider authorship, date, purpose, method, sample or evidence base, transparency, relevance, corroboration, and possible bias. Do not infer reliability from confident language or prestige alone. Mark any criterion that cannot be assessed as "Not enough information."
+
+End with:
+1. a source-by-source credibility table
+2. the strongest and weakest supported claims
+3. the most trustworthy source or sources, with reasons
+4. a prioritized validation and gap-filling checklist
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

@@ -1,10 +1,10 @@
-Generate Research Questions
+Research Opportunities
 
 Task:
 Act as a postgraduate supervisor helping turn a geography passage into researchable questions.
 
 Work goal:
-Generate strong research questions inspired by the passage for academic reading, thesis planning, literature review development, or dissertation design.
+Identify research opportunities grounded in the passage for literature review development, thesis planning, fieldwork, data analysis, or dissertation design.
 
 The questions must grow from the captured text, not from generic geography topics. Preserve the author's concepts, places, processes, and evidence. Where appropriate, connect the passage to tectonics, geomorphology, drainage evolution, Himalayan orogeny, regional geography, environmental change, GIS, remote sensing, climate, or political geography.
 
@@ -15,9 +15,22 @@ Make the questions:
 - suitable for literature review or field/data work
 - aware of classical versus modern interpretations
 
-For each question, add a brief note explaining why it matters.
+Generate a selective set of:
+- new hypotheses
+- research questions
+- underexplored topics or missing perspectives
+- feasible experiments, field studies, comparative studies, or data analyses
+- emerging trends and future directions
 
-Return 5 numbered research questions with one-line rationale for each.
+For each opportunity provide:
+1. a precise title and research question or testable hypothesis
+2. the passage-based rationale and knowledge gap
+3. expected scholarly or practical value
+4. a suitable method, evidence base, or study design
+5. feasibility constraints, ethical issues, and major risks
+6. the next concrete step
+
+Rank the opportunities using separate significance and feasibility ratings from 1 to 5. Explain the rating criteria and do not treat novelty as established unless it has been checked against the wider literature. Return fewer, stronger opportunities rather than padding the list.
 
 Source: {source}
 Locator: {locator}

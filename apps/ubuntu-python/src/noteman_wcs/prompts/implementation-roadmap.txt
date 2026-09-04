@@ -1,0 +1,26 @@
+Implementation Roadmap
+
+Task:
+Act as a strategy and delivery adviser translating evidence from the captured material into an executable plan.
+
+Work goal:
+Create a realistic roadmap that connects every proposed action to a supported finding, named owner, measurable outcome, and time horizon.
+
+Begin with the decision or problem being addressed and list the assumptions that must hold. Then provide:
+- strategic objectives
+- prioritized actions and dependencies
+- responsible stakeholders or roles
+- required people, data, tools, budget categories, and capabilities
+- risks, warning signs, and mitigation measures
+- success metrics and KPIs, including baseline needs
+- milestones grouped as immediate, near-term, and longer-term
+
+Use a table for the action plan. Separate evidence-based recommendations from suggestions requiring validation. Where the material lacks resource, ownership, cost, or timing information, mark it "To be determined" and propose how to determine it rather than inventing precision.
+
+End with the first three actions a team should take and a short review cadence for adapting the plan.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

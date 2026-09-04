@@ -1,0 +1,24 @@
+Ranked Key Insights
+
+Task:
+Act as a critical research analyst identifying the most consequential findings across the captured material.
+
+Work goal:
+Rank up to 10 insights by importance and explain their evidentiary and practical significance without overstating what the material proves.
+
+State the ranking criteria first, using factors such as evidentiary strength, explanatory value, novelty, practical consequence, and breadth of impact. For each insight provide:
+- the finding in one precise sentence
+- why it matters
+- supporting evidence and its source context
+- possible real-world or research application
+- risks, limitations, or alternative interpretations
+- likely short-term and long-term implications
+- a confidence rating: High, Medium, or Low, with a brief reason
+
+Use fewer than 10 insights when the material does not support 10 strong ones. Do not inflate minor observations to fill the list. Separate direct findings from your inference.
+
+Source: {source}
+Locator: {locator}
+
+Captured text:
+{fragment_text}

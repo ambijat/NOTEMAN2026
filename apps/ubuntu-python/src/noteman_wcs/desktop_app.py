@@ -316,6 +316,9 @@ class NoteManDesktopApp(tk.Tk):
             self._set_status("Capture text first, then copy a prompt.")
             return
         selected_prompt = self._selected_prompt()
+        if selected_prompt is None:
+            self._set_status("Add a user prompt before copying from the User group.")
+            return
         rendered_prompt = render_prompt(selected_prompt, fragment)
         try:
             FileProjectRepository(self.workspace_path).save_prompt_use(
@@ -380,6 +383,9 @@ class NoteManDesktopApp(tk.Tk):
 
     def remove_prompt(self) -> None:
         prompt = self._selected_prompt()
+        if prompt is None:
+            self._set_status("There are no user prompts to remove.")
+            return
         if prompt.group != "User":
             self._set_status("Only user-defined prompts can be removed here.")
             return
@@ -512,24 +518,23 @@ class NoteManDesktopApp(tk.Tk):
             return None
         return self.current_note.fragments[-1]
 
-    def _selected_prompt(self) -> PromptTemplate:
+    def _selected_prompt(self) -> PromptTemplate | None:
         selected = self.prompt_var.get()
-        return next(
-            (prompt for prompt in self._prompts_in_selected_group() if prompt.title == selected),
-            self._prompts_in_selected_group()[0],
-        )
+        prompts = self._prompts_in_selected_group()
+        return next((prompt for prompt in prompts if prompt.title == selected), prompts[0] if prompts else None)
 
     def _prompt_group_names(self) -> list[str]:
         groups = sorted({prompt.group for prompt in self.prompts})
         if "Research" in groups:
             groups.remove("Research")
             groups.insert(0, "Research")
+        if "User" not in groups:
+            groups.append("User")
         return groups
 
     def _prompts_in_selected_group(self) -> list[PromptTemplate]:
         group = self.prompt_group_var.get()
-        grouped = [prompt for prompt in self.prompts if prompt.group == group]
-        return grouped or self.prompts
+        return [prompt for prompt in self.prompts if prompt.group == group]
 
     def _refresh_prompt_groups(self, preferred_group: str | None = None) -> None:
         for child in self.prompt_group_frame.winfo_children():
