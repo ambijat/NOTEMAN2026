@@ -39,7 +39,8 @@
                               Text="Chapter One"
                               SelectionChanged="NoteChoice_SelectionChanged"
                               Margin="0,0,0,8" />
-                    <Button Content="New Note" Click="NewNote_Click" Margin="0,0,0,16" />
+                    <Button Content="New Note" Click="NewNote_Click" Margin="0,0,0,8" />
+                    <Button Content="Retrieve Note" Click="RetrieveNote_Click" Margin="0,0,0,16" />
 
                     <TextBlock Text="Source" FontWeight="SemiBold" Margin="0,0,0,6" />
                     <TextBox x:Name="SourceBox" Text="Reference..." Margin="0,0,0,8" />

@@ -4,6 +4,15 @@ NOTEMAN2026 is the single canonical repository for the NoteMan product family.
 The repository name identifies the product; implementation directories identify
 the platform.
 
+## Download and explore
+
+- **[Download NoteMan for Windows](https://github.com/ambijat/NOTEMAN2026/releases/download/v0.1.0/Noteman.Desktop.exe)**
+- [View the NoteMan product showcase](https://ambijat.github.io/NOTEMAN2026/)
+- [Release notes and checksum](https://github.com/ambijat/NOTEMAN2026/releases/tag/v0.1.0)
+
+The Windows download is a self-contained x64 executable. No separate .NET
+installation is required.
+
 ## Canonical layout
 
 | Path | Role | Status |

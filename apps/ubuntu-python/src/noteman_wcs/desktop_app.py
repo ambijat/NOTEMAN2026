@@ -20,7 +20,7 @@ if __package__ in {None, ""}:
 
 from .domain import CaptureFragment, ExtractionMethod, Locator, LocatorKind, Note, Project, Source
 from .prompts import PromptTemplate, load_prompt_templates, render_prompt
-from .storage import FileProjectRepository, render_fragment
+from .storage import FileProjectRepository, render_fragment, render_note_markdown
 
 CONFIG_DIR_ENV = "XDG_CONFIG_HOME"
 CONFIG_FILE_NAME = "desktop_app.json"
@@ -126,7 +126,8 @@ class NoteManDesktopApp(tk.Tk):
         self.note_choice = ttk.Combobox(left, textvariable=self.note_var, values=[], state="normal")
         self.note_choice.grid(sticky="ew", pady=(0, 8))
         self.note_choice.bind("<<ComboboxSelected>>", self._load_selected_note)
-        ttk.Button(left, text="New Note", command=self.new_note).grid(sticky="ew", pady=(0, 16))
+        ttk.Button(left, text="New Note", command=self.new_note).grid(sticky="ew", pady=(0, 8))
+        ttk.Button(left, text="Retrieve Note", command=self.retrieve_note).grid(sticky="ew", pady=(0, 16))
 
         ttk.Label(left, text="Source", font=("", 10, "bold")).grid(sticky="w", pady=(0, 6))
         self.source_var = tk.StringVar(value="Reference...")
@@ -252,6 +253,10 @@ class NoteManDesktopApp(tk.Tk):
         messagebox.showinfo("NoteMan", f"New note with {note_title} created.")
         self._set_status(f"New note with {note_title} created.")
 
+    def retrieve_note(self) -> None:
+        if not self._load_note_for_display(self.note_var.get().strip()):
+            self._set_status("Select an exported note from the Note list to retrieve it.")
+
     def paste_clipboard_text(self) -> None:
         self._ensure_note()
         try:
@@ -275,9 +280,12 @@ class NoteManDesktopApp(tk.Tk):
         self._ensure_note()
         draft_text = self._text_content(self.draft)
         if draft_text and not self._draft_matches_loaded_ai_retrieval(draft_text):
-            self._add_fragment(draft_text, ExtractionMethod.MANUAL, clear_draft=True)
+            self._add_fragment(draft_text, ExtractionMethod.MANUAL)
         repo = FileProjectRepository(self.workspace_path)
         note_path = repo.save_note(self.current_project, self.current_note)  # type: ignore[arg-type]
+        self._replace_text(self.preview, "", disabled=True)
+        self.draft.delete("1.0", "end")
+        self.draft_loaded_from_note = False
         self._refresh_project_choices()
         self._refresh_note_choices()
         self._set_status(f"Exported to {note_path}")
@@ -336,9 +344,13 @@ class NoteManDesktopApp(tk.Tk):
         except tk.TclError:
             self._set_status("Clipboard has no AI result text.")
             return
-        self._replace_text(self.draft, text)
+        if self._text_content(self.draft):
+            self.draft.insert("end", "\n\n")
+        self.draft.insert("end", text)
+        self.draft.see("end")
+        self.draft.focus_set()
         self.draft_loaded_from_note = False
-        self._set_status("Pasted AI result into Typed / AI Draft. Review it before saving.")
+        self._set_status("Appended AI result to Typed / AI Draft. Review it before saving.")
 
     def add_prompt(self) -> None:
         result = self._prompt_editor_dialog()
@@ -555,8 +567,17 @@ class NoteManDesktopApp(tk.Tk):
         return path
 
     def _update_preview(self) -> None:
-        content = "" if self.current_note is None else self._render_note_by_ai_method(include_ai=False)
+        latest_capture = next(
+            (
+                fragment
+                for fragment in reversed(self.current_note.fragments if self.current_note else [])
+                if fragment.method != ExtractionMethod.AI_DRAFT
+            ),
+            None,
+        )
+        content = "" if latest_capture is None else "\n".join(render_fragment(latest_capture)).rstrip() + "\n"
         self._replace_text(self.preview, content, disabled=True)
+        self.preview.see("1.0")
 
     def _render_note_by_ai_method(self, include_ai: bool) -> str:
         if self.current_note is None:
@@ -607,18 +628,19 @@ class NoteManDesktopApp(tk.Tk):
             return False
         self.current_project = self._load_or_create_project(project_name)
         self.current_note = note
-        self.note_var.set(note.title)
-        ai_retrieval = self._render_note_by_ai_method(include_ai=True)
-        self._replace_text(self.draft, "" if ai_retrieval.strip() == f"# {note.title}" else ai_retrieval)
-        self.draft_loaded_from_note = bool(self._text_content(self.draft))
+        self.note_var.set(display)
+        self._replace_text(self.draft, render_note_markdown(note))
+        self.draft.mark_set("insert", "1.0")
+        self.draft.see("1.0")
+        self.draft_loaded_from_note = True
         self._update_preview()
-        self._set_status("Loaded existing note.")
+        self._set_status("Retrieved existing note into Typed / AI Draft.")
         return True
 
     def _draft_matches_loaded_ai_retrieval(self, draft_text: str) -> bool:
         if not self.draft_loaded_from_note:
             return False
-        return draft_text == self._render_note_by_ai_method(include_ai=True).strip()
+        return draft_text == render_note_markdown(self.current_note).strip()  # type: ignore[arg-type]
 
     def _load_or_create_project(self, project_name: str) -> Project:
         if self.workspace_path is None:
